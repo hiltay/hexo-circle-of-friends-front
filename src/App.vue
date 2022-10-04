@@ -1,26 +1,338 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div id="cf-root">
+      <ArticleCard v-if="article_card_data.open" :article_card_data='article_card_data.data' :Config='Config'
+                   @close_article_card="close_article_card"></ArticleCard>
+      <div v-if="change_map[Config.sort_rule]">
+        <div id="cf-container">
+          <Header :Config='Config' :all_data='change_map[Config.sort_rule]'
+                  @watch_sort_rule="change_sort_rule" @show_article_card="open_article_card"
+                  @toggle_api_url="toggle_api_url">
+          </Header>
+          <ArticleBody :Config='Config' :all_data='change_map[Config.sort_rule]'
+                       @show_article_card="open_article_card"></ArticleBody>
+        </div>
+      </div>
+      <span v-else>与主机通讯中……</span>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import ArticleBody from './components/ArticleBody.vue'
+import ArticleCard from './components/ArticleCard'
+import DefaultConfig from './utils/Config'
+
+// 可通过 var fdataUser 替换默认值
+// if (typeof (UserConfig) !== 'undefined') {
+//   console.log(UserConfig);
+// for (var key in fdataUser) {
+//   if (fdataUser[key]) {
+//     fdata[key] = fdataUser[key];
+//   }
+// }
+// }
 
 export default {
   name: 'App',
+  data() {
+    return {
+      Config: DefaultConfig,
+      current_api:null,
+      // current_sort_rule: DefaultConfig.sort_rule,
+      change_map: {
+        'updated': null,
+        'created': null,
+      },
+      article_card_data: {
+        'open': false,
+        'data': null,
+      },
+    }
+  },
+  methods: {
+    // 加载文章数据
+    get_data(base_url){
+      // 本地加载
+      let CreatedData = JSON.parse(sessionStorage.getItem(base_url+"CreatedData"))
+      let UpdatedData = JSON.parse(sessionStorage.getItem(base_url+"UpdatedData"))
+      this.change_map['created'] = CreatedData;
+      this.change_map['updated'] = UpdatedData;
+      if (CreatedData===null){
+        // 没有缓存，第一次加载created
+        this.$axios.get(base_url + 'all?rule=created')
+          .then(
+            response => {
+              sessionStorage.setItem(base_url+"CreatedData", JSON.stringify(response.data))
+              this.change_map['created'] = response.data;
+            }
+          )
+      }
+      if (UpdatedData===null){
+        // 没有缓存，第一次加载updated
+        this.$axios.get(base_url + 'all?rule=updated')
+          .then(
+            response => {
+              sessionStorage.setItem(base_url+"UpdatedData", JSON.stringify(response.data))
+              this.change_map['updated'] = response.data
+            }
+          )
+      }
+    },
+    // 切换排序规则
+    change_sort_rule(rule) {
+      // 监听事件，修改排序规则rule
+      this.Config.sort_rule = rule;
+    },
+    // 打开文章卡片
+    open_article_card(link) {
+      let url;
+      // 监听事件，获取link对应的文章卡片展示
+      // 选择私有库还是公共库api
+      let current_base_api =  this.current_api==="private"?this.Config.private_api_url:this.Config.public_api_url
+      if (link!==''){
+        url = current_base_api + 'post?num=5&link=' + link
+      }else {
+        url = current_base_api + 'post?num=5'
+      }
+      this.$axios.get(url)
+        .then(
+          response => {
+            console.log(response.data);
+            console.log(url);
+            this.article_card_data.data = response.data;
+            this.article_card_data.open = true;
+          }
+        )
+    },
+    // 关闭文章卡片
+    close_article_card() {
+      this.article_card_data.open = false
+    },
+    toggle_api_url(){
+      if (this.current_api==="private"){
+        this.current_api="public"
+        this.get_data(this.Config.public_api_url)
+      }else{
+        this.current_api="private"
+        this.get_data(this.Config.private_api_url)
+      }
+    }
+  },
+  created() {
+    this.current_api = "private"
+    this.get_data(this.Config.private_api_url)
+  },
   components: {
-    HelloWorld
+    Header,
+    ArticleBody,
+    ArticleCard
   }
 }
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+:root {
+  --lmm-hover: #fe5186;
+  --lmm-fontcolor: #363636;
+  --lmm-background: #f7f9fe;
+  --lmm-floorcolor: #a9a9b3;
+  --lmm-dark-fontcolor: #a9a9b3;
+  --lmm-dack-background: #252627;
+  --lmm-dark-floorcolor: #454545;
+  --lmm-background-floorcolor: #dedede;
 }
+
+[data-theme=light] {
+  --lmm-fontcolor: #363636;
+  --lmm-background: #f7f9fe;
+  --lmm-floorcolor: #a9a9b3;
+}
+
+[data-theme=dark] {
+  --lmm-fontcolor: #a9a9b3;
+  --lmm-background: #252627;
+  --lmm-floorcolor: #454545;
+}
+
+/* 基本信息 */
+
+
+.cf-state-data {
+  width: 100%;
+  display: flex;
+}
+
+.cf-data-friends, .cf-data-active, .cf-data-article {
+  height: 60px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+  cursor: pointer;
+}
+
+.cf-label {
+  font-size: 16px;
+  padding: 0 3%;
+  align-self: center;
+  text-align: center;
+  width: 100%;
+  height: 30px;
+}
+
+.cf-message {
+  align-self: center;
+  text-align: center;
+  padding: 0 3%;
+  width: 50%;
+  font-size: 20px;
+}
+
+/* 排序按钮 */
+#cf-change {
+  font-size: 14px;
+  display: block;
+  padding: 12px 0 4px;
+  width: 100%;
+  text-align: center;
+}
+
+
+/* 主容器 */
+#cf-container {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  margin: auto;
+}
+
+#cf-container a {
+  text-decoration: none;
+}
+
+
+.cf-time-updated, .cf-time-created {
+  display: inline-block;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.cf-time-updated i.fas, .cf-time-created i.far {
+  padding-right: 8px;
+}
+
+
+/* 底部 */
+#cf-footer {
+  margin: 6rem 1% 2rem 0;
+  text-align: right;
+  font-size: 13px;
+}
+
+.cf-data-lastupdated {
+  font-size: 13px;
+  text-align: right;
+  display: block;
+}
+
+
+/* 颜色 */
+.cf-article .cf-article-title:hover {
+  letter-spacing: 2px;
+  color: var(--lmm-hover) !important;
+}
+
+#cf-more i.fas:hover {
+  color: var(--lmm-hover);
+}
+
+#cf-state, #cf-more {
+  background: var(--lmm-background);
+  color: var(--lmm-fontcolor);
+}
+
+#cf-change, .cf-time-updated, .cf-time-created, .cf-article-floor {
+  color: var(--lmm-floorcolor);
+}
+
+.cf-article-author, .cf-article a.cf-article-title, .cf-article:hover .cf-article-floor, .cf-article:hover .cf-time-created, .cf-article:hover .cf-time-updated {
+  color: var(--lmm-fontcolor);
+}
+
+.cf-article {
+  background: var(--lmm-background);
+}
+
+#cf-change span:hover {
+  color: var(--lmm-hover);
+  cursor: pointer;
+}
+
+
+.cf-overshow p a:hover {
+  color: var(--lmm-hover) !important;
+}
+
+.cf-overshow p span {
+  color: var(--lmm-floorcolor)
+}
+
+/* 暗色主题 */
+.dark-theme #cf-overlay, .theme-dark #cf-overlay {
+  background-color: rgba(59, 61, 66, 0.42);
+}
+
+.dark-theme .cf-overshow, .theme-dark .cf-overshow {
+  background: #292a2d;
+}
+
+.dark-theme .cf-overshow p a, .theme-dark .cf-overshow p a {
+  color: var(--lmm-fontcolor);
+}
+
+.dark-theme .cf-overshow .cf-overshow-content, .theme-dark .cf-overshow .cf-overshow-content {
+  background: #eaeaea;
+}
+
+.dark-theme #cf-state, .dark-theme #cf-more, .theme-dark #cf-state, .theme-dark #cf-more {
+  background: var(--lmm-dack-background);
+  color: var(--lmm-dark-fontcolor);
+}
+
+.dark-theme #cf-change, .dark-theme .cf-time-updated, .dark-theme .cf-time-created, .dark-theme .cf-article-floor, .theme-dark #cf-change, .theme-dark .cf-time-updated, .theme-dark .cf-time-created, .theme-dark .cf-article-floor {
+  color: var(--lmm-dark-floorcolor);
+}
+
+.dark-theme .cf-article-author, .dark-theme .cf-article a.cf-article-title, .theme-dark .cf-article-author, .theme-dark .cf-article a.cf-article-title {
+  color: var(--lmm-dark-fontcolor);
+}
+
+.dark-theme .cf-article, .theme-dark .cf-article {
+  background: var(--lmm-dack-background);
+}
+
+.dark-theme .cf-article:hover .cf-article-floor, .dark-theme .cf-article:hover .cf-time-created, .dark-theme .cf-article:hover .cf-time-updated, .dark-theme .cf-overshow p span, .theme-dark .cf-article:hover .cf-article-floor, .theme-dark .cf-article:hover .cf-time-created, .theme-dark .cf-article:hover .cf-time-updated, .theme-dark .cf-overshow p span {
+  color: var(--lmm-dark-fontcolor);
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 400px) {
+  #cf-state {
+    font-size: 14px;
+  }
+
+  .cf-article-time i {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  #cf-state, .cf-article-time {
+    display: none;
+  }
+}
+
 </style>
