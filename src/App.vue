@@ -1,13 +1,14 @@
 <template>
   <div>
     <div id="cf-root">
+      <ManagePanel  v-show="manage_panel_open" :Config='Config' @close_manage_panel="close_manage_panel"></ManagePanel>
       <ArticleCard v-if="article_card_data.open" :article_card_data='article_card_data.data' :Config='Config'
                    @close_article_card="close_article_card"></ArticleCard>
       <div v-if="change_map[Config.sort_rule]">
         <div id="cf-container">
           <Header :Config='Config' :all_data='change_map[Config.sort_rule]'
                   @watch_sort_rule="change_sort_rule" @show_article_card="open_article_card"
-                  @toggle_api_url="toggle_api_url">
+                  @toggle_api_url="toggle_api_url" @open_manage_panel="open_manage_panel">
           </Header>
           <ArticleBody :Config='Config' :all_data='change_map[Config.sort_rule]'
                        @show_article_card="open_article_card"></ArticleBody>
@@ -21,9 +22,10 @@
 <script>
 import Header from './components/Header.vue'
 import ArticleBody from './components/ArticleBody.vue'
-import ArticleCard from './components/ArticleCard'
+import ArticleCard from './components/ArticleCard.vue'
+import ManagePanel from './components/ManagePanel.vue'
 import DefaultConfig from './utils/Config'
-
+// todo 处理url
 // 可通过 var fdataUser 替换默认值
 // if (typeof (UserConfig) !== 'undefined') {
 //   console.log(UserConfig);
@@ -38,17 +40,22 @@ export default {
   name: 'App',
   data() {
     return {
+      // 配置
       Config: DefaultConfig,
+      // 当前api
       current_api:null,
-      // current_sort_rule: DefaultConfig.sort_rule,
+      // 排序规则
       change_map: {
         'updated': null,
         'created': null,
       },
+      // 文章卡片
       article_card_data: {
         'open': false,
         'data': null,
       },
+      // 管理面板状态
+      manage_panel_open:false,
     }
   },
   methods: {
@@ -118,6 +125,14 @@ export default {
         this.current_api="private"
         this.get_data(this.Config.private_api_url)
       }
+    },
+    // 打开管理面板
+    open_manage_panel(){
+      this.manage_panel_open = true
+    },
+    // 关闭管理面板
+    close_manage_panel(){
+      this.manage_panel_open = false
     }
   },
   created() {
@@ -127,7 +142,8 @@ export default {
   components: {
     Header,
     ArticleBody,
-    ArticleCard
+    ArticleCard,
+    ManagePanel
   }
 }
 
@@ -143,6 +159,7 @@ export default {
   --lmm-dack-background: #252627;
   --lmm-dark-floorcolor: #454545;
   --lmm-background-floorcolor: #dedede;
+  --yyyz-scrollbar-hover-bg-color: #14e5de;
 }
 
 [data-theme=light] {
@@ -157,39 +174,29 @@ export default {
   --lmm-floorcolor: #454545;
 }
 
-/* 基本信息 */
-
-
-.cf-state-data {
-  width: 100%;
-  display: flex;
+/* element-ui 全局按钮样式开始 */
+.el-button:focus, .el-button:hover {
+  color: var(--lmm-hover)!important;
 }
+/* element-ui 全局按钮样式结束 */
 
-.cf-data-friends, .cf-data-active, .cf-data-article {
-  height: 60px;
-  background: transparent;
-  display: flex;
-  flex-direction: column;
-  width: 33%;
-  cursor: pointer;
+/* element-ui 全局表单样式开始 */
+.el-form-item__label {
+  color: #ffffff!important;
 }
+/* element-ui 全局表单样式结束 */
 
-.cf-label {
-  font-size: 16px;
-  padding: 0 3%;
-  align-self: center;
-  text-align: center;
-  width: 100%;
-  height: 30px;
-}
 
-.cf-message {
-  align-self: center;
-  text-align: center;
-  padding: 0 3%;
-  width: 50%;
-  font-size: 20px;
-}
+
+
+
+
+
+
+
+
+
+
 
 /* 排序按钮 */
 #cf-change {

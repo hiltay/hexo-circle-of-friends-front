@@ -59,7 +59,6 @@ export default {
     },
     open_article_card(link) {
       this.$emit('show_article_card', link);
-      location.reload();
     },
   },
 
