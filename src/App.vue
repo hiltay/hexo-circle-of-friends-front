@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="cf-root">
-      <ManagePanel  v-show="manage_panel_open" :Config='Config' @close_manage_panel="close_manage_panel"></ManagePanel>
+      <ManagePanel  v-if="manage_panel_open" :Config='Config' @close_manage_panel="close_manage_panel"></ManagePanel>
       <ArticleCard v-if="article_card_data.open" :article_card_data='article_card_data.data' :Config='Config'
                    @close_article_card="close_article_card"></ArticleCard>
       <div v-if="change_map[Config.sort_rule]">

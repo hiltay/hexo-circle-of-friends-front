@@ -3,14 +3,14 @@
     <el-row v-for="(item, index) in form.LINK" :key="index">
       <el-col :span="14">
         <el-form-item label="link">
-          <el-tooltip content="爬取起始页面，填写你的友链页地址" placement="left" hide-after="50" effect="light">
+          <el-tooltip content="爬取起始页面，填写你的友链页地址" placement="left" :hide-after="50" effect="light">
             <el-input v-model="form.LINK[index].link" placeholder="示例：https://example.com/link/"/>
           </el-tooltip>
         </el-form-item>
       </el-col>
       <el-col :span="8">
         <el-form-item label="theme">
-          <el-tooltip content="爬取起始页面的主题" placement="left" hide-after="50" effect="light">
+          <el-tooltip content="爬取起始页面的主题" placement="left" :hide-after="50" effect="light">
             <el-select v-model="form.LINK[index].theme" placeholder="Select">
               <el-option-group
                 v-for="group in theme_options"
@@ -44,7 +44,7 @@
       <el-col :span="22">
         <el-form-item class="cf-manage-main-settings-form" label="BLOCK_SITE">
           <el-tooltip content="屏蔽站点，支持正则表达式" placement="left" effect="light">
-              <el-input placeholder="非必填，示例：https://example.com/" v-model="form.BLOCK_SITE[index]"/>
+            <el-input placeholder="非必填，示例：https://example.com/" v-model="form.BLOCK_SITE[index]"/>
           </el-tooltip>
         </el-form-item>
       </el-col>
@@ -63,11 +63,11 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-      <el-form-item class="cf-manage-main-settings-form" label="OUTDATE_CLEAN">
-        <el-tooltip content="数据库文章过期清除时间" placement="left" effect="light">
+        <el-form-item class="cf-manage-main-settings-form" label="OUTDATE_CLEAN">
+          <el-tooltip content="数据库文章过期清除时间" placement="left" effect="light">
             <el-input placeholder="示例：60" v-model="form.OUTDATE_CLEAN"/>
-        </el-tooltip>
-      </el-form-item>
+          </el-tooltip>
+        </el-form-item>
       </el-col>
     </el-row>
     <el-row>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import {init_header,get_cache_token} from "../utils/tools";
+import Config from "../utils/Config";
 
 export default {
   name: "ManagePanelMain_settings",
@@ -130,16 +130,21 @@ export default {
         },
       ],
       // 请求表单
+      // form: {
+      //   LINK: [{
+      //     link: "",
+      //     theme: ""
+      //   },
+      //   ],
+      //   BLOCK_SITE: [
+      //     ""
+      //   ],
+      //   OUTDATE_CLEAN: 60,
+      // }
       form: {
-        LINK: [{
-          link: "",
-          theme: ""
-        },
-        ],
-        BLOCK_SITE: [
-          ""
-        ],
-        OUTDATE_CLEAN: 60,
+        LINK: this.current_settings.LINK,
+        BLOCK_SITE: this.current_settings.BLOCK_SITE === [] ? this.current_settings.BLOCK_SITE : [""],
+        OUTDATE_CLEAN: this.current_settings.OUTDATE_CLEAN,
       }
     }
   },
@@ -162,29 +167,9 @@ export default {
     // 删除一条BLOCK_SITE项
     del_blocksite(index) {
       this.form.BLOCK_SITE.splice(index, 1);
-    }
+    },
   },
-  // created() {  todo 2022/10/5 创建组件的时候请求当前的配置
-  //   let auth_token = get_cache_token()
-  //   // 如果本地有缓存token，尝试直接使用token登录
-  //   if (auth_token){
-  //     let config= init_header(auth_token)
-  //     this.$axios.get(this.Config.private_api_url+"read_settings",config)
-  //       .then(response=>{
-  //         let data = response.data
-  //         if (data.code===200){
-  //           this.$emit("login_success")
-  //         }else{
-  //
-  //         }
-  //       })
-  //       .catch(error=>{
-  //         // console.log(error)
-  //       })
-  //   }
-  // },
-  props:["Config"]
-
+  props: ["Config", "current_settings"]
 }
 </script>
 

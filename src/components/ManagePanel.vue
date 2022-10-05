@@ -10,7 +10,6 @@
         <ManagePanelMain v-else :Config="Config" @logout="logout"></ManagePanelMain>
         </el-scrollbar>
       </div>
-
     </div>
 </template>
 
@@ -24,9 +23,6 @@ export default {
     return {
       // 展示登录页面
       show_login_page:true,
-      // 当前组件名称
-      current_component: "",
-
     }
   },
   methods:{
@@ -43,8 +39,6 @@ export default {
     logout(){
       // 展示登录页面
       this.show_login_page = true
-      // 内部组件不展示
-      this.current_component=""
     }
   },
   props:["Config"],
