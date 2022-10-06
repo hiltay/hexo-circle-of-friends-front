@@ -40,7 +40,7 @@ export default {
           }else {
             this.$message.error({
               title: '错误',
-              message: '用户名或密码错误',
+              message: '密码错误',
             });
           }
         })
