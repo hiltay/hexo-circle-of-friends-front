@@ -2,17 +2,36 @@
   <div>
     <span class="cf-manage-title">友链朋友圈管理面板</span>
     <el-button @click="logout" class="cf-manage-exit-btn" round>退出登录</el-button>
-    <!--    <el-button @click="xxx" class="cf-manage-settings-btn" round>配置管理</el-button>-->
-    <!--    <el-button @click="xxx" class="cf-manage-status-btn" round>状态监控</el-button>-->
-    <div class="cf-manage-main-area">
-      <component v-if="current_settings!==null" :is="current_component" :Config="Config"
-                 :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></component>
-    </div>
+
+<!--    <el-button @click="xxx" class="cf-manage-settings-btn" round>配置管理</el-button>-->
+<!--        <el-button @click="xxx" class="cf-manage-status-btn" round>状态监控</el-button>-->
+    <el-tabs
+      v-model="current_tab"
+      type="card"
+      class="cf-manage-tabs-area"
+      @tab-click="handleClick"
+    >
+      <el-tab-pane label="配置管理" name="ManagePanelMain_settings">
+        <ManagePanelMain_settings v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></ManagePanelMain_settings>
+      </el-tab-pane>
+      <el-tab-pane label="环境变量管理" name="second">
+        <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></ManagePanelMain_envs>
+      </el-tab-pane>
+<!--      <el-tab-pane label="Role" name="third">Role</el-tab-pane>-->
+<!--      <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>-->
+
+<!--    <div class="cf-manage-main-area">-->
+
+<!--      <component v-if="current_settings!==null" :is="current_component" :Config="Config"-->
+<!--                 :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></component>-->
+<!--    </div>-->
+    </el-tabs>
   </div>
 </template>
 
 <script>
 import ManagePanelMain_settings from './ManagePanelMain-settings'
+import ManagePanelMain_envs from './ManagePanelMain-envs'
 import {get_cache_token, init_header} from "../utils/tools";
 
 
@@ -20,8 +39,8 @@ export default {
   name: "ManagePanelMain",
   data() {
     return {
-      // 当前组件名称
-      current_component: "ManagePanelMain_settings",
+      // 当前选项卡
+      current_tab: "ManagePanelMain_settings",
       // 当前配置
       current_settings: null,
       // 唯一key，用于内部组件刷新
@@ -70,6 +89,9 @@ export default {
       this.read_current_settings()
       // 变更key值，刷新内部组件
       this.key_num+=1
+    },
+    handleClick(tab, event ){
+      console.log(tab, event);
     }
   },
   created() {
@@ -77,7 +99,8 @@ export default {
   },
   props: ["Config"],
   components: {
-    ManagePanelMain_settings
+    ManagePanelMain_settings,
+    ManagePanelMain_envs
   }
 }
 </script>
@@ -134,14 +157,11 @@ export default {
   left: 25%;
 }
 
-/*主区域*/
-.cf-manage-main-area {
+/*选项卡区域*/
+.cf-manage-tabs-area{
   position: relative;
-  top: 15%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 15% 5% 0 5%;
+  margin: 10% 5% 0 5%;
 }
+
 
 </style>

@@ -9,7 +9,6 @@
         <ManagePanelLogin v-if="show_login_page" :Config="Config" @login_success="login_success" ></ManagePanelLogin>
         <ManagePanelMain v-else :Config="Config" @logout="logout"></ManagePanelMain>
       </div>
-
     </el-container>
 
     </div>

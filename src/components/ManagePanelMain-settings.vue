@@ -82,7 +82,7 @@
     <el-row>
       <el-col :offset="7">
       <el-form-item>
-        <el-button type="primary" @click="submit_form">Create</el-button>
+        <el-button type="primary" @click="submit_form">保存</el-button>
       </el-form-item>
       </el-col>
     </el-row>
@@ -183,7 +183,6 @@ export default {
           .then(response => {
             let data = response.data
             if (data.code === 200) {
-              console.log(data)
               ElMessage({
                 message: data.message,
                 type: 'success',
