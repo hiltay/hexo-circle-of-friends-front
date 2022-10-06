@@ -1,15 +1,17 @@
 <template>
   <div>
     <div id="cf-manage-overlay" @click="close_manage_panel" @close_manage_panel="close_manage_panel"></div>
-      <div class="cf-manage-pannel flex-col">
-        <el-scrollbar height="100%">
+    <el-container class="cf-manage-pannel">
+      <div class="cf-pannel-area" >
         <svg class="cf-manage-close-btn" @click="close_manage_panel" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-029747aa="">
           <path fill="currentColor" d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z"></path>
         </svg>
         <ManagePanelLogin v-if="show_login_page" :Config="Config" @login_success="login_success" ></ManagePanelLogin>
         <ManagePanelMain v-else :Config="Config" @logout="logout"></ManagePanelMain>
-        </el-scrollbar>
       </div>
+
+    </el-container>
+
     </div>
 </template>
 
@@ -71,8 +73,8 @@ export default {
   background-color: rgb(182, 178, 180);
   position: fixed;
   border-radius: 10px;
-  width: 800px;
-  height: 800px;
+  width: 50%;
+  height: 70%;
   /*overflow: scroll;*/
   z-index: 999;
   transform: translate(-50%, -50%);
@@ -86,18 +88,39 @@ export default {
   max-width: 30px;
   color: white;
   cursor: pointer;
-  right: 0;
+  right: 2%;
   top: 0;
 }
 /*管理面板关闭按钮结束*/
-
-/*管理面板滚动条样式开始*/
-.el-scrollbar {
-  --el-scrollbar-opacity: 1;
-  --el-scrollbar-bg-color: white;
-  --el-scrollbar-hover-opacity: 1;
-  --el-scrollbar-hover-bg-color: var(--yyyz-scrollbar-hover-bg-color);
+.cf-pannel-area{
+  width: 100% ;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
+/*管理面板滚动条样式开始*/
+::-webkit-scrollbar-thumb {
+  background-color: rgba(52, 218, 177, 0.85);
+  background-image: -webkit-linear-gradient(45deg, hsla(0, 7%, 86%, 0.4) 25%, transparent 0, transparent 50%, hsla(0, 8%, 64%, 0.4) 0, hsla(103, 96%, 44%, 0.4) 75%, transparent 0, transparent) !important;
+  border-radius: 2em !important
+
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(182, 178, 180);
+
+  border-radius: 2em
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent
+}
+
 /*管理面板滚动条样式结束*/
 
 /*管理面板样式结束*/

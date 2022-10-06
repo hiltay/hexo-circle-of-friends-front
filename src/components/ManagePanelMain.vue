@@ -7,9 +7,7 @@
     <div class="cf-manage-main-area">
       <component v-if="current_settings!==null" :is="current_component" :Config="Config"
                  :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></component>
-      <!--      <ManagePanelMain_settings :config="Config"></ManagePanelMain_settings>-->
     </div>
-    <!--    <component v-bind:is="current_component" :Config="Config"></component>-->
   </div>
 </template>
 
@@ -138,9 +136,12 @@ export default {
 
 /*主区域*/
 .cf-manage-main-area {
-  max-width: 760px;
-  margin-top: 20%;
-  margin-left: 2%;
+  position: relative;
+  top: 15%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 15% 5% 0 5%;
 }
 
 </style>

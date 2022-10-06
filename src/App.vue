@@ -159,7 +159,6 @@ export default {
   --lmm-dack-background: #252627;
   --lmm-dark-floorcolor: #454545;
   --lmm-background-floorcolor: #dedede;
-  --yyyz-scrollbar-hover-bg-color: #14e5de;
 }
 
 [data-theme=light] {

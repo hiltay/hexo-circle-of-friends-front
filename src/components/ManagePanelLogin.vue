@@ -3,7 +3,6 @@
     <span class="cf-manage-title">友链朋友圈管理面板</span>
     <el-input class="cf-manage-input" size="large" v-model="password" type="password" clearable show-password placeholder="请输入密码" />
     <el-button @click="login" class="cf-manage-login-btn" round>立即登录</el-button>
-
   </div>
 </template>
 
@@ -74,9 +73,10 @@ export default {
   position: absolute;
   transform: translate(-50%, -50%);
   top: 35%;
-  width: 168px;
-  height: 33px;
-  overflow-wrap: break-word;
+  left: 50%;
+  /*max-width: 168px;*/
+  /*max-height: 33px;*/
+  /*overflow-wrap: break-word;*/
   color: white;
   font-size: 24px;
   font-family: PingFangSC-Regular;
@@ -89,12 +89,14 @@ export default {
   position: absolute;
   transform: translate(-50%, -50%);
   max-width: 50%;
+  left: 50%;
   top: 45%;
 }
 .cf-manage-login-btn{
   position: absolute;
   transform: translate(-50%, -50%);
   max-width: 50%;
+  left: 50%;
   top: 60%;
 }
 </style>
