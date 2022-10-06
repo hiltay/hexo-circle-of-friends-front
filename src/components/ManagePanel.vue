@@ -70,7 +70,7 @@ export default {
 /*管理面板样式开始*/
 .cf-manage-pannel {
   text-align: center;
-  background-color: rgb(182, 178, 180);
+  background-color: rgb(140, 135, 136);
   position: fixed;
   border-radius: 10px;
   width: 50%;
@@ -90,6 +90,10 @@ export default {
   cursor: pointer;
   right: 2%;
   top: 0;
+}
+
+.cf-manage-close-btn:hover {
+  color: rgb(73,177,245);
 }
 /*管理面板关闭按钮结束*/
 .cf-pannel-area{
