@@ -5,7 +5,8 @@
     <!--    <el-button @click="xxx" class="cf-manage-settings-btn" round>配置管理</el-button>-->
     <!--    <el-button @click="xxx" class="cf-manage-status-btn" round>状态监控</el-button>-->
     <div class="cf-manage-main-area">
-      <component v-if="current_settings!==null" :is="current_component" :config="Config" :current_settings="current_settings"></component>
+      <component v-if="current_settings!==null" :is="current_component" :Config="Config"
+                 :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></component>
       <!--      <ManagePanelMain_settings :config="Config"></ManagePanelMain_settings>-->
     </div>
     <!--    <component v-bind:is="current_component" :Config="Config"></component>-->
@@ -23,8 +24,10 @@ export default {
     return {
       // 当前组件名称
       current_component: "ManagePanelMain_settings",
-      //
-      current_settings: null
+      // 当前配置
+      current_settings: null,
+      // 唯一key，用于内部组件刷新
+      key_num: 0
     }
   },
   methods: {
@@ -53,7 +56,7 @@ export default {
           .then(response => {
             let data = response.data
             if (data.code === 200) {
-              this.current_settings=data.current_settings
+              this.current_settings = data.current_settings
             } else {
               // 无法获取当前朋友圈配置
             }
@@ -62,6 +65,13 @@ export default {
             // console.log(error)
           })
       }
+    },
+    // 刷新内部的组件
+    refresh_component(){
+      // 重新获取当前配置
+      this.read_current_settings()
+      // 变更key值，刷新内部组件
+      this.key_num+=1
     }
   },
   created() {

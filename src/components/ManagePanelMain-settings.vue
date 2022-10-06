@@ -71,13 +71,28 @@
       </el-col>
     </el-row>
     <el-row>
+      <el-col :span="24">
+        <el-form-item class="cf-manage-main-settings-form" label="HTTP_PROXY">
+          <el-tooltip content="HTTP代理" placement="left" effect="light">
+            <el-input placeholder="[IP]:[端口]，示例：192.168.3.204:18080" v-model="http_proxy"/>
+          </el-tooltip>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :offset="7">
+      <el-form-item>
+        <el-button type="primary" @click="submit_form">Create</el-button>
+      </el-form-item>
+      </el-col>
     </el-row>
 
   </el-form>
 </template>
 
 <script>
-import Config from "../utils/Config";
+import {get_cache_token, init_header} from "../utils/tools";
+import { ElMessage } from 'element-plus'
 
 export default {
   name: "ManagePanelMain_settings",
@@ -129,18 +144,8 @@ export default {
           ],
         },
       ],
-      // 请求表单
-      // form: {
-      //   LINK: [{
-      //     link: "",
-      //     theme: ""
-      //   },
-      //   ],
-      //   BLOCK_SITE: [
-      //     ""
-      //   ],
-      //   OUTDATE_CLEAN: 60,
-      // }
+      // todo 暂存http代理配置 http代理更改env环境
+      http_proxy:"",
       form: {
         LINK: this.current_settings.LINK,
         BLOCK_SITE: this.current_settings.BLOCK_SITE === [] ? this.current_settings.BLOCK_SITE : [""],
@@ -168,6 +173,38 @@ export default {
     del_blocksite(index) {
       this.form.BLOCK_SITE.splice(index, 1);
     },
+    submit_form(){
+      let auth_token = get_cache_token()
+      // 如果本地有缓存token，尝试直接使用token登录
+      let body = this.form
+      if (auth_token) {
+        let config = init_header(auth_token)
+        this.$axios.put(this.Config.private_api_url + "update_settings",body, config)
+          .then(response => {
+            let data = response.data
+            if (data.code === 200) {
+              console.log(data)
+              ElMessage({
+                message: data.message,
+                type: 'success',
+              })
+              this.refresh()
+            } else {
+              ElMessage({
+                message: data.message,
+                type: 'error',
+              })
+            }
+          })
+          .catch(error => {
+            // console.log(error)
+          })
+      }
+    },
+    // 刷新当前组件
+    refresh(){
+      this.$emit("refresh")
+    }
   },
   props: ["Config", "current_settings"]
 }

@@ -57,7 +57,21 @@ export default {
       this.$emit('open_manage_panel')
     }
   },
-  props: ['Config', 'all_data']
+  props:{
+    all_data:{
+      type:Object,
+      default:()=>{
+        return{
+          statistical_data:{
+            friends_num:0,
+            active_num:0,
+            article_num:0,
+          }
+        }
+      }
+    },
+    Config:Object
+  },
 }
 
 </script>
