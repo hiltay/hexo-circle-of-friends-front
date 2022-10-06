@@ -14,14 +14,6 @@
       <el-tab-pane label="环境变量管理" name="second">
         <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></ManagePanelMain_envs>
       </el-tab-pane>
-<!--      <el-tab-pane label="Role" name="third">Role</el-tab-pane>-->
-<!--      <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>-->
-
-<!--    <div class="cf-manage-main-area">-->
-
-<!--      <component v-if="current_settings!==null" :is="current_component" :Config="Config"-->
-<!--                 :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></component>-->
-<!--    </div>-->
     </el-tabs>
   </div>
 </template>
@@ -30,6 +22,7 @@
 import ManagePanelMain_settings from './ManagePanelMain-settings'
 import ManagePanelMain_envs from './ManagePanelMain-envs'
 import {get_cache_token, init_header} from "../utils/tools";
+import {ElMessage} from "element-plus";
 
 
 export default {
@@ -73,10 +66,17 @@ export default {
               this.current_settings = data.current_settings
             } else {
               // 无法获取当前朋友圈配置
+              ElMessage({
+                message: data.message,
+                type: 'error',
+              })
             }
           })
           .catch(error => {
-            // console.log(error)
+            ElMessage({
+              message: error.message,
+              type: 'error',
+            })
           })
       }
     },

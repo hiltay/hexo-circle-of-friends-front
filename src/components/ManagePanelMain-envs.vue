@@ -8,7 +8,7 @@
       :closable="false"
     />
   <el-divider />
-  <el-form :model="form" label-width="120px">
+  <el-form :model="all_env" label-width="120px">
     <el-row v-for="(obj,index) in all_env" :key="index">
       <el-col :span="22" :offset="2">
         <el-form-item class="cf-manage-main-settings-form" :label="obj.name">
@@ -103,30 +103,87 @@ export default {
   },
   methods: {
     submit_form(){
-      let auth_token = get_cache_token()
       // 如果本地有缓存token，尝试直接使用token登录
-      let body = this.form
+      let auth_token = get_cache_token()
+      // 拼接请求体
+      let body = {}
+      for (let i=0;i<this.all_env.length;i++){
+        if (this.all_env[i].value !=="") {
+          body[this.all_env[i].name]=this.all_env[i].value
+        }
+      }
       if (auth_token) {
         let config = init_header(auth_token)
-        this.$axios.put(this.Config.private_api_url + "update_settings",body, config)
-          .then(response => {
-            let data = response.data
-            if (data.code === 200) {
+        // 根据部署方式决定请求url
+        if (this.current_settings.DEPLOY_TYPE==="github"){
+          // github+vercel部署
+          this.$axios.put(this.Config.private_api_url + "update_github_env",body, config)
+            .then(response => {
+              let data = response.data
+              if (data.code === 200) {
+                ElMessage({
+                  message: data.message,
+                  type: 'success',
+                })
+              } else {
+                ElMessage({
+                  message: data.message,
+                  type: 'error',
+                })
+              }
+            })
+            .catch(error => {
               ElMessage({
-                message: data.message,
-                type: 'success',
-              })
-              this.refresh()
-            } else {
-              ElMessage({
-                message: data.message,
+                message: error.message,
                 type: 'error',
               })
-            }
-          })
-          .catch(error => {
-            // console.log(error)
-          })
+            })
+          this.$axios.put(this.Config.private_api_url + "update_vercel_env",body, config)
+            .then(response => {
+              let data = response.data
+              if (data.code === 200) {
+                ElMessage({
+                  message: data.message,
+                  type: 'success',
+                })
+              } else {
+                ElMessage({
+                  message: data.message,
+                  type: 'error',
+                })
+              }
+            })
+            .catch(error => {
+              ElMessage({
+                message: error.message,
+                type: 'error',
+              })
+            })
+        } else{
+          // server或docker
+          this.$axios.put(this.Config.private_api_url + "update_server_env",body, config)
+            .then(response => {
+              let data = response.data
+              if (data.code === 200) {
+                console.log(data)
+                ElMessage({
+                  message: data.message,
+                  type: 'success',
+                })
+              } else {
+                ElMessage({
+                  message: data.message,
+                  type: 'error',
+                })
+              }
+            })
+            .catch(error => {
+              ElMessage({
+                message: error.message,
+                type: 'error',
+              })
+            })
+        }
       }
     },
     // 刷新当前组件
@@ -141,6 +198,11 @@ export default {
         name:"STORAGE_TYPE",
         value:"",
         placeholder:"存储方式"
+      },)
+      this.all_env.push({
+        name:"VERCEL_ACCESS_TOKEN",
+        value:"",
+        placeholder:"vercel访问令牌"
       },)
     }else if (this.current_settings.DEPLOY_TYPE==="server"){
       this.all_env.push({

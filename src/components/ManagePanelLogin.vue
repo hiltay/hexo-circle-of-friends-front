@@ -9,6 +9,7 @@
 <script>
 
 import {init_header,get_cache_token} from "../utils/tools";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "ManagePanelLogin",
@@ -32,6 +33,10 @@ export default {
             // 更新本地缓存
             localStorage.setItem("fcircle-token",data.token)
             this.$emit("login_success")
+            this.$message.success({
+              title: '成功',
+              message: '登录成功',
+            });
           }else {
             this.$message.error({
               title: '错误',
@@ -40,8 +45,10 @@ export default {
           }
         })
         .catch(error=>{
-          // console.log(error)
-          // 提示信息
+          ElMessage({
+            message: error.message,
+            type: 'error',
+          })
         })
     },
   },

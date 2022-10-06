@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="cf-root">
-      <ManagePanel  v-if="manage_panel_open" :Config='Config' @close_manage_panel="close_manage_panel"></ManagePanel>
+      <ManagePanel v-if="manage_panel_open" :Config='Config' @close_manage_panel="close_manage_panel"></ManagePanel>
       <ArticleCard v-if="article_card_data.open" :article_card_data='article_card_data.data' :Config='Config'
                    @close_article_card="close_article_card"></ArticleCard>
       <div v-if="change_map[Config.sort_rule]">
@@ -25,6 +25,7 @@ import ArticleBody from './components/ArticleBody.vue'
 import ArticleCard from './components/ArticleCard.vue'
 import ManagePanel from './components/ManagePanel.vue'
 import DefaultConfig from './utils/Config'
+import {ElMessage} from "element-plus";
 // todo 处理url
 // 可通过 var fdataUser 替换默认值
 // if (typeof (UserConfig) !== 'undefined') {
@@ -43,7 +44,7 @@ export default {
       // 配置
       Config: DefaultConfig,
       // 当前api
-      current_api:null,
+      current_api: null,
       // 排序规则
       change_map: {
         'updated': null,
@@ -55,36 +56,48 @@ export default {
         'data': null,
       },
       // 管理面板状态
-      manage_panel_open:false,
+      manage_panel_open: false,
     }
   },
   methods: {
     // 加载文章数据
-    get_data(base_url){
+    get_data(base_url) {
       // 本地加载
-      let CreatedData = JSON.parse(sessionStorage.getItem(base_url+"CreatedData"))
-      let UpdatedData = JSON.parse(sessionStorage.getItem(base_url+"UpdatedData"))
+      let CreatedData = JSON.parse(sessionStorage.getItem(base_url + "CreatedData"))
+      let UpdatedData = JSON.parse(sessionStorage.getItem(base_url + "UpdatedData"))
       this.change_map['created'] = CreatedData;
       this.change_map['updated'] = UpdatedData;
-      if (CreatedData===null){
+      if (CreatedData === null) {
         // 没有缓存，第一次加载created
         this.$axios.get(base_url + 'all?rule=created')
           .then(
             response => {
-              sessionStorage.setItem(base_url+"CreatedData", JSON.stringify(response.data))
+              sessionStorage.setItem(base_url + "CreatedData", JSON.stringify(response.data))
               this.change_map['created'] = response.data;
             }
-          )
+          ).catch(error => {
+            ElMessage({
+              message: error.message,
+              type: 'error',
+            })
+          }
+        )
       }
-      if (UpdatedData===null){
+      if (UpdatedData === null) {
         // 没有缓存，第一次加载updated
         this.$axios.get(base_url + 'all?rule=updated')
           .then(
             response => {
-              sessionStorage.setItem(base_url+"UpdatedData", JSON.stringify(response.data))
+              sessionStorage.setItem(base_url + "UpdatedData", JSON.stringify(response.data))
               this.change_map['updated'] = response.data
             }
-          )
+          ).catch(error => {
+            ElMessage({
+              message: error.message,
+              type: 'error',
+            })
+          }
+        )
       }
     },
     // 切换排序规则
@@ -97,10 +110,10 @@ export default {
       let url;
       // 监听事件，获取link对应的文章卡片展示
       // 选择私有库还是公共库api
-      let current_base_api =  this.current_api==="private"?this.Config.private_api_url:this.Config.public_api_url
-      if (link!==''){
+      let current_base_api = this.current_api === "private" ? this.Config.private_api_url : this.Config.public_api_url
+      if (link !== '') {
         url = current_base_api + 'post?num=5&link=' + link
-      }else {
+      } else {
         url = current_base_api + 'post?num=5'
       }
       this.$axios.get(url)
@@ -117,21 +130,21 @@ export default {
     close_article_card() {
       this.article_card_data.open = false
     },
-    toggle_api_url(){
-      if (this.current_api==="private"){
-        this.current_api="public"
+    toggle_api_url() {
+      if (this.current_api === "private") {
+        this.current_api = "public"
         this.get_data(this.Config.public_api_url)
-      }else{
-        this.current_api="private"
+      } else {
+        this.current_api = "private"
         this.get_data(this.Config.private_api_url)
       }
     },
     // 打开管理面板
-    open_manage_panel(){
+    open_manage_panel() {
       this.manage_panel_open = true
     },
     // 关闭管理面板
-    close_manage_panel(){
+    close_manage_panel() {
       this.manage_panel_open = false
     }
   },
@@ -175,26 +188,17 @@ export default {
 
 /* element-ui 全局按钮样式开始 */
 .el-button:focus, .el-button:hover {
-  color: var(--lmm-hover)!important;
+  color: var(--lmm-hover) !important;
 }
+
 /* element-ui 全局按钮样式结束 */
 
 /* element-ui 全局表单样式开始 */
 .el-form-item__label {
-  color: #ffffff!important;
+  color: #ffffff !important;
 }
+
 /* element-ui 全局表单样式结束 */
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* 排序按钮 */

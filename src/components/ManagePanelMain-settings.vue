@@ -197,7 +197,10 @@ export default {
             }
           })
           .catch(error => {
-            // console.log(error)
+            ElMessage({
+              message: error.message,
+              type: 'error',
+            })
           })
       }
     },
