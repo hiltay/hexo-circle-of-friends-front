@@ -62,7 +62,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="24">
+      <el-col :span="23" :offset="1">
         <el-form-item class="cf-manage-main-settings-form" label="OUTDATE_CLEAN">
           <el-tooltip content="数据库文章过期清除时间" placement="left" effect="light">
             <el-input placeholder="示例：60" v-model="form.OUTDATE_CLEAN"/>
@@ -83,6 +83,7 @@
       <el-col :offset="7">
       <el-form-item>
         <el-button type="primary" @click="submit_form">保存</el-button>
+        <el-button type="info" @click="refresh">刷新</el-button>
       </el-form-item>
       </el-col>
     </el-row>

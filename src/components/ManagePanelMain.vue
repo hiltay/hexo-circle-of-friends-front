@@ -2,9 +2,6 @@
   <div>
     <span class="cf-manage-title">友链朋友圈管理面板</span>
     <el-button @click="logout" class="cf-manage-exit-btn" round>退出登录</el-button>
-
-<!--    <el-button @click="xxx" class="cf-manage-settings-btn" round>配置管理</el-button>-->
-<!--        <el-button @click="xxx" class="cf-manage-status-btn" round>状态监控</el-button>-->
     <el-tabs
       v-model="current_tab"
       type="card"

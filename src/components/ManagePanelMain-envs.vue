@@ -1,7 +1,16 @@
 <template>
+    <el-alert
+      title="当前部署方式"
+      type="success"
+      :description= "current_settings.DEPLOY_TYPE"
+      show-icon
+      center
+      :closable="false"
+    />
+  <el-divider />
   <el-form :model="form" label-width="120px">
     <el-row v-for="(obj,index) in all_env" :key="index">
-      <el-col :span="24">
+      <el-col :span="22" :offset="2">
         <el-form-item class="cf-manage-main-settings-form" :label="obj.name">
             <el-input :placeholder="obj.placeholder" v-model="obj.value"/>
         </el-form-item>
@@ -11,6 +20,7 @@
       <el-col :offset="7">
         <el-form-item>
           <el-button type="primary" @click="submit_form">保存</el-button>
+          <el-button type="info" @click="refresh">刷新</el-button>
         </el-form-item>
       </el-col>
     </el-row>
@@ -123,6 +133,29 @@ export default {
     refresh(){
       this.$emit("refresh")
     }
+  },
+  created() {
+
+    if (this.current_settings.DEPLOY_TYPE==="github"){
+      this.all_env.push({
+        name:"STORAGE_TYPE",
+        value:"",
+        placeholder:"存储方式"
+      },)
+    }else if (this.current_settings.DEPLOY_TYPE==="server"){
+      this.all_env.push({
+        name:"EXPOSE_PORT",
+        value:"",
+        placeholder:"api端口，默认：8000"
+      },)
+      this.all_env.push({
+        name:"RUN_PER_HOURS",
+        value:"",
+        placeholder:"爬虫运行小时间隔，默认：6"
+      },)
+    }
+
+
   },
   props: ["Config", "current_settings"]
 }

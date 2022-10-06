@@ -74,6 +74,7 @@ export default {
 
 #cf-overlay {
   top: 0;
+  left: 0;
   background-color: rgba(255, 255, 255, 0.42);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
