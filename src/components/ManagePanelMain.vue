@@ -8,11 +8,14 @@
       class="cf-manage-tabs-area"
       @tab-click="handleClick"
     >
-      <el-tab-pane label="配置管理" name="ManagePanelMain_settings">
+      <el-tab-pane label="配置管理" name="first">
         <ManagePanelMain_settings v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></ManagePanelMain_settings>
       </el-tab-pane>
       <el-tab-pane label="环境变量管理" name="second">
         <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></ManagePanelMain_envs>
+      </el-tab-pane>
+      <el-tab-pane label="自定义友链管理" name="third">
+<!--        todo 自定义友链管理-->
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -30,7 +33,7 @@ export default {
   data() {
     return {
       // 当前选项卡
-      current_tab: "ManagePanelMain_settings",
+      current_tab: "first",
       // 当前配置
       current_settings: null,
       // 唯一key，用于内部组件刷新
@@ -130,28 +133,6 @@ export default {
   font-size: 16px;
   top: 5%;
   right: 0;
-}
-
-/*项目配置按钮*/
-.cf-manage-settings-btn {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  max-width: 50%;
-  height: 33px;
-  font-size: 16px;
-  top: 13%;
-  left: 10%;
-}
-
-/*状态监控按钮*/
-.cf-manage-status-btn {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  max-width: 50%;
-  height: 33px;
-  font-size: 16px;
-  top: 13%;
-  left: 25%;
 }
 
 /*选项卡区域*/
