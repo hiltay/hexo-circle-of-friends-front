@@ -26,16 +26,17 @@ import ArticleCard from './components/ArticleCard.vue'
 import ManagePanel from './components/ManagePanel.vue'
 import DefaultConfig from './utils/Config'
 import {ElMessage} from "element-plus";
-// todo 处理url
-// 可通过 var fdataUser 替换默认值
-// if (typeof (UserConfig) !== 'undefined') {
-//   console.log(UserConfig);
-// for (var key in fdataUser) {
-//   if (fdataUser[key]) {
-//     fdata[key] = fdataUser[key];
-//   }
-// }
-// }
+
+function init_config(default_config){
+  if (typeof (UserConfig) !== 'undefined') {
+    for (let key in UserConfig) {
+      if (default_config[key]) {
+        default_config[key] = UserConfig[key];
+      }
+    }
+  }
+  return default_config
+}
 
 export default {
   name: 'App',
@@ -149,6 +150,7 @@ export default {
     }
   },
   created() {
+    this.Config = init_config(this.Config)
     this.current_api = "private"
     this.get_data(this.Config.private_api_url)
   },
