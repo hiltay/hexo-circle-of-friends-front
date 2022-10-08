@@ -33,6 +33,7 @@
 <script>
 export default {
   name: 'Header',
+  emits:['watch_sort_rule','show_article_card','toggle_api_url','open_manage_panel'],
   methods: {
     // 切换排序规则
     change_sort_rule() {

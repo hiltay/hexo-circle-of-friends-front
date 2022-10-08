@@ -30,6 +30,7 @@
 <script>
 export default {
   name: "ArticleCard",
+  emits:['close_article_card'],
   data() {
     return {
       show:false // 控制淡入淡出
@@ -40,7 +41,6 @@ export default {
     close_article_card(){
       this.show=false // 淡出
       setTimeout(() => this.$emit("close_article_card"), 200)
-      // this.$emit("close_article_card")
     },
     loadDefaultImg(event) {
       // 当图片出错时，用默认图片替换

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="cf-manage-overlay" @click="close_manage_panel" @close_manage_panel="close_manage_panel"></div>
+    <div id="cf-manage-overlay"></div>
     <el-container class="cf-manage-pannel">
       <div class="cf-pannel-area" >
         <svg class="cf-manage-close-btn" @click="close_manage_panel" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" data-v-029747aa="">
@@ -20,6 +20,8 @@ import ManagePanelMain from './ManagePanelMain.vue'
 
 export default {
   name: "ManagePanel",
+  // 声明需要使用的事件
+  emits: ['close_manage_panel'],
   data(){
     return {
       // 展示登录页面

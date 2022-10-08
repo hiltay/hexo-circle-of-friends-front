@@ -34,6 +34,7 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 
 export default {
   name: "ManagePanelMain_envs",
+  emits:['refresh'],
   data() {
     return {
       // 环境变量配置

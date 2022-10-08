@@ -41,6 +41,7 @@
 
 export default {
   name: 'ArticleBody',
+  emits:['show_article_card'],
   data() {
     return {
       current_arcitle_num: this.all_data['statistical_data']['article_num'] > 20 ? 20 : this.all_data['statistical_data']['article_num'],

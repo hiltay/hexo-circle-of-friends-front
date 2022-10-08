@@ -14,6 +14,7 @@ import {ElMessage} from "element-plus";
 
 export default {
   name: "ManagePanelLogin",
+  emits:['login_success'],
   data(){
     return {
       // 登录框密码

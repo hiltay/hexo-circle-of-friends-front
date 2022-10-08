@@ -6,19 +6,24 @@
       v-model="current_tab"
       type="card"
       class="cf-manage-tabs-area"
-      @tab-click="handleClick"
     >
       <el-tab-pane label="配置管理" name="settings">
-        <ManagePanelMain_settings v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.settings" @refresh="refresh_component"></ManagePanelMain_settings>
+        <ManagePanelMain_settings v-if="current_settings!==null" :Config="Config" :current_settings="current_settings"
+                                  :key="component_keys.settings"
+                                  @refresh="refresh_component"></ManagePanelMain_settings>
       </el-tab-pane>
       <el-tab-pane label="环境变量管理" name="envs">
-        <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.envs" @refresh="refresh_component"></ManagePanelMain_envs>
+        <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings"
+                              :key="component_keys.envs" @refresh="refresh_component"></ManagePanelMain_envs>
       </el-tab-pane>
       <el-tab-pane label="自定义友链管理" name="links">
-        <ManagePanelMain_links v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.links" @refresh="refresh_component"></ManagePanelMain_links>
+        <ManagePanelMain_links v-if="current_settings!==null" :Config="Config" :current_settings="current_settings"
+                               :key="component_keys.links" @refresh="refresh_component"></ManagePanelMain_links>
       </el-tab-pane>
       <el-tab-pane label="数据库管理" name="switchsb">
-        <ManagePanelMain_switchdb v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.switchdb" @refresh="refresh_component"></ManagePanelMain_switchdb>
+        <ManagePanelMain_switchdb v-if="current_settings!==null" :Config="Config" :current_settings="current_settings"
+                                  :key="component_keys.switchdb"
+                                  @refresh="refresh_component"></ManagePanelMain_switchdb>
       </el-tab-pane>
       <el-tab-pane label="关于" name="about">
         <ManagePanelMain_about></ManagePanelMain_about>
@@ -34,25 +39,27 @@ import ManagePanelMain_links from './ManagePanelMain-links'
 import ManagePanelMain_switchdb from './ManagePanelMain-switchdb'
 import ManagePanelMain_about from './ManagePanelMain-about'
 import {get_cache_token, init_header} from "../utils/tools";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElNotification} from "element-plus";
 
 
 export default {
   name: "ManagePanelMain",
+  // 声明需要使用的事件
+  emits: ['logout'],
   data() {
     return {
       // 当前选项卡
-      current_tab: "first",
+      current_tab: "settings",
       // 当前配置
       current_settings: null,
       // 每个组件的唯一key，用于内部组件刷新
-      component_keys:{
-        settings:0,
-        envs:0,
-        links:0,
-        switchdb:0
+      component_keys: {
+        settings: 0,
+        envs: 0,
+        links: 0,
+        switchdb: 0
       }
-      
+
     }
   },
   methods: {
@@ -99,18 +106,26 @@ export default {
       }
     },
     // 刷新内部的组件
-    refresh_component(value){
+    refresh_component(value) {
       // 重新获取当前配置
       this.read_current_settings()
       // 变更key值，刷新内部组件
-      this.component_keys[value] +=1
+      this.component_keys[value] += 1
     },
-    handleClick(tab, event ){
-      console.log(tab, event);
-    }
   },
   created() {
     this.read_current_settings()
+    this.$axios.get(this.Config.private_api_url + "version")
+      .then(response => {
+        // status:0 不需要更新；status:1 需要更新 status:2 检查更新失败
+        if (response.data.status === 0) {
+          ElNotification({
+            title: '版本更新提示',
+            message: '检测到新版本：' + response.data.latest_version + '，然而当前版本为' + response.data.current_version + '，请及时更新',
+            type: 'warning',
+          })
+        }
+      })
   },
   props: ["Config"],
   components: {
@@ -154,7 +169,7 @@ export default {
 }
 
 /*选项卡区域*/
-.cf-manage-tabs-area{
+.cf-manage-tabs-area {
   position: relative;
   margin: 10% 5% 0 5%;
 }

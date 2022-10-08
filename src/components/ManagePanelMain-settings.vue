@@ -97,6 +97,7 @@ import { ElMessage } from 'element-plus'
 
 export default {
   name: "ManagePanelMain_settings",
+  emits:['refresh'],
   data() {
     return {
       // link字段主题选项

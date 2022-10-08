@@ -53,9 +53,9 @@
         </el-form-item>
       </el-col>
     </el-row>
-    
+
   </el-form>
-  
+
 </template>
 
 <script>
@@ -64,6 +64,7 @@ import { ElMessage } from 'element-plus'
 
 export default {
   name: "ManagePanelMain_links",
+  emits:['refresh'],
   data() {
     return {
       // 当前是否开启自定义友链
@@ -136,8 +137,6 @@ export default {
     }
   },
   created(){
-    console.log(this.current_settings)
-    
     for(let i=0;i<this.current_settings.SETTINGS_FRIENDS_LINKS.list.length;i++){
       // 读取远程配置，添加现有的配置项友链
       let item = this.current_settings.SETTINGS_FRIENDS_LINKS.list[i]
