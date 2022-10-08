@@ -162,11 +162,11 @@ export default {
               })
               success = false
             })
+        }
           if (success) {
             // 上传成功，提示是否重启api/爬虫
             ElMessageBox.confirm(
-              '更新环境变量成功，重启程序后生效，是否立即重启？' +
-              '注：由于vercel限制，暂时仅支持vercel+sqlite重启，其余存储方式请手动操作重启',
+              '更新环境变量成功，重启程序后生效，是否立即重启？',
               '提示',
               {
                 confirmButtonText: '确定',
@@ -176,31 +176,23 @@ export default {
             ).then(() => {
                 // 重启api
                 if (this.current_settings.DEPLOY_TYPE === "github"){
-                  if (this.current_settings.DATABASE !=="sqlite"){
-                    ElMessage({
-                      message: "由于vercel限制，暂时仅支持vercel+sqlite部署的api重启，其余存储方式请手动操作重启",
-                      type: 'error',
-                    })
-                  }else{
-                    // vercel+sqlite，通过api /run_crawl_now 立即运行爬虫一次
-                    this.$axios.get(this.Config.private_api_url + "run_crawl_now", config)
-                      .then(response => {
-                        let data = response.data
-                        if (data.code !== 200) {
-                          ElMessage({
-                            message: data.message,
-                            type: 'error',
-                          })
-                        }
-                      })
-                      .catch(error => {
+                  // vercel+sqlite，通过api /run_crawl_now 立即运行爬虫一次
+                  this.$axios.get(this.Config.private_api_url + "restart_api", config)
+                    .then(response => {
+                      let data = response.data
+                      if (data.code !== 200) {
                         ElMessage({
-                          message: error.message,
+                          message: data.message,
                           type: 'error',
                         })
+                      }
+                    })
+                    .catch(error => {
+                      ElMessage({
+                        message: error.message,
+                        type: 'error',
                       })
-                  }
-
+                    })
                 }else{
                   this.$axios.get(this.Config.private_api_url + "restart_api", config)
                   ElMessage({
@@ -217,7 +209,7 @@ export default {
               })
           }
         }
-      } else {
+         else {
         ElMessage({
           message: "认证失败，未获取到fcircle token",
           type: 'error',
