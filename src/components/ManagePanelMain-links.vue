@@ -48,7 +48,7 @@
     <el-row>
       <el-col :offset="7">
         <el-form-item>
-          <el-button v-if="enable" type="primary" @click="submit_form">保存</el-button>
+          <el-button type="primary" @click="submit_form">保存</el-button>
           <el-button type="info" @click="refresh">刷新</el-button>
         </el-form-item>
       </el-col>

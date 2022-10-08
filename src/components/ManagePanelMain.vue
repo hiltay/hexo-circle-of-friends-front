@@ -8,16 +8,20 @@
       class="cf-manage-tabs-area"
       @tab-click="handleClick"
     >
-      <el-tab-pane label="配置管理" name="first">
+      <el-tab-pane label="配置管理" name="settings">
         <ManagePanelMain_settings v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.settings" @refresh="refresh_component"></ManagePanelMain_settings>
       </el-tab-pane>
-      <el-tab-pane label="环境变量管理" name="second">
+      <el-tab-pane label="环境变量管理" name="envs">
         <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.envs" @refresh="refresh_component"></ManagePanelMain_envs>
       </el-tab-pane>
-      <el-tab-pane label="自定义友链管理" name="third">
+      <el-tab-pane label="自定义友链管理" name="links">
         <ManagePanelMain_links v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.links" @refresh="refresh_component"></ManagePanelMain_links>
-<!--        todo 自定义友链管理-->
-<!--        todo 关于-->
+      </el-tab-pane>
+      <el-tab-pane label="数据库管理" name="switchsb">
+        <ManagePanelMain_switchdb v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.switchdb" @refresh="refresh_component"></ManagePanelMain_switchdb>
+      </el-tab-pane>
+      <el-tab-pane label="关于" name="about">
+        <ManagePanelMain_about></ManagePanelMain_about>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -27,6 +31,8 @@
 import ManagePanelMain_settings from './ManagePanelMain-settings'
 import ManagePanelMain_envs from './ManagePanelMain-envs'
 import ManagePanelMain_links from './ManagePanelMain-links'
+import ManagePanelMain_switchdb from './ManagePanelMain-switchdb'
+import ManagePanelMain_about from './ManagePanelMain-about'
 import {get_cache_token, init_header} from "../utils/tools";
 import {ElMessage} from "element-plus";
 
@@ -43,7 +49,8 @@ export default {
       component_keys:{
         settings:0,
         envs:0,
-        links:0
+        links:0,
+        switchdb:0
       }
       
     }
@@ -109,7 +116,9 @@ export default {
   components: {
     ManagePanelMain_settings,
     ManagePanelMain_envs,
-    ManagePanelMain_links
+    ManagePanelMain_links,
+    ManagePanelMain_switchdb,
+    ManagePanelMain_about,
   }
 }
 </script>
