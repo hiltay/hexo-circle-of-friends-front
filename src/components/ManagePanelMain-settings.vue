@@ -42,7 +42,7 @@
     </el-row>
     <el-row v-for="(item, index) in form.BLOCK_SITE" :key="index">
       <el-col :span="22">
-        <el-form-item class="cf-manage-main-settings-form" label="BLOCK_SITE">
+        <el-form-item label="BLOCK_SITE">
           <el-tooltip content="屏蔽站点，支持正则表达式" placement="left" effect="light">
             <el-input placeholder="非必填，示例：https://example.com/" v-model="form.BLOCK_SITE[index]"/>
           </el-tooltip>
@@ -62,8 +62,8 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="23" :offset="1">
-        <el-form-item class="cf-manage-main-settings-form" label="OUTDATE_CLEAN">
+      <el-col :span="24">
+        <el-form-item  label="OUTDATE_CLEAN" label-width="auto">
           <el-tooltip content="数据库文章过期清除时间" placement="left" effect="light">
             <el-input placeholder="示例：60" v-model="form.OUTDATE_CLEAN"/>
           </el-tooltip>
@@ -72,7 +72,7 @@
     </el-row>
     <el-row>
       <el-col :span="24">
-        <el-form-item class="cf-manage-main-settings-form" label="HTTP_PROXY">
+        <el-form-item  label="HTTP_PROXY">
           <el-tooltip content="HTTP代理" placement="left" effect="light">
             <el-input placeholder="[IP]:[端口]，示例：192.168.3.204:18080" v-model="http_proxy"/>
           </el-tooltip>

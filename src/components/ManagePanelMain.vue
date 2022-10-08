@@ -15,6 +15,7 @@
         <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.envs" @refresh="refresh_component"></ManagePanelMain_envs>
       </el-tab-pane>
       <el-tab-pane label="自定义友链管理" name="third">
+        <ManagePanelMain_links v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.links" @refresh="refresh_component"></ManagePanelMain_links>
 <!--        todo 自定义友链管理-->
 <!--        todo 关于-->
       </el-tab-pane>
@@ -25,6 +26,7 @@
 <script>
 import ManagePanelMain_settings from './ManagePanelMain-settings'
 import ManagePanelMain_envs from './ManagePanelMain-envs'
+import ManagePanelMain_links from './ManagePanelMain-links'
 import {get_cache_token, init_header} from "../utils/tools";
 import {ElMessage} from "element-plus";
 
@@ -40,7 +42,8 @@ export default {
       // 每个组件的唯一key，用于内部组件刷新
       component_keys:{
         settings:0,
-        envs:0
+        envs:0,
+        links:0
       }
       
     }
@@ -105,7 +108,8 @@ export default {
   props: ["Config"],
   components: {
     ManagePanelMain_settings,
-    ManagePanelMain_envs
+    ManagePanelMain_envs,
+    ManagePanelMain_links
   }
 }
 </script>

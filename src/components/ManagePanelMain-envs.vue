@@ -11,7 +11,7 @@
   <el-form :model="all_env" label-width="120px">
     <el-row v-for="(value,name) in all_env" :key="name">
       <el-col :span="22" :offset="2">
-        <el-form-item class="cf-manage-main-settings-form" :label="name">
+        <el-form-item :label="name">
           <el-input :placeholder="value.placeholder" v-model="value.value"/>
         </el-form-item>
       </el-col>
