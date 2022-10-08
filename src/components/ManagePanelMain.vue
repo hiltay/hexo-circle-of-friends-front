@@ -9,10 +9,10 @@
       @tab-click="handleClick"
     >
       <el-tab-pane label="配置管理" name="first">
-        <ManagePanelMain_settings v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></ManagePanelMain_settings>
+        <ManagePanelMain_settings v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.settings" @refresh="refresh_component"></ManagePanelMain_settings>
       </el-tab-pane>
       <el-tab-pane label="环境变量管理" name="second">
-        <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="key_num" @refresh="refresh_component"></ManagePanelMain_envs>
+        <ManagePanelMain_envs v-if="current_settings!==null" :Config="Config" :current_settings="current_settings" :key="component_keys.envs" @refresh="refresh_component"></ManagePanelMain_envs>
       </el-tab-pane>
       <el-tab-pane label="自定义友链管理" name="third">
 <!--        todo 自定义友链管理-->
@@ -37,8 +37,12 @@ export default {
       current_tab: "first",
       // 当前配置
       current_settings: null,
-      // 唯一key，用于内部组件刷新
-      key_num: 0
+      // 每个组件的唯一key，用于内部组件刷新
+      component_keys:{
+        settings:0,
+        envs:0
+      }
+      
     }
   },
   methods: {
@@ -85,11 +89,11 @@ export default {
       }
     },
     // 刷新内部的组件
-    refresh_component(){
+    refresh_component(value){
       // 重新获取当前配置
       this.read_current_settings()
       // 变更key值，刷新内部组件
-      this.key_num+=1
+      this.component_keys[value] +=1
     },
     handleClick(tab, event ){
       console.log(tab, event);

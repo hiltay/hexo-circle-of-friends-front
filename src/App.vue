@@ -120,10 +120,15 @@ export default {
       this.$axios.get(url)
         .then(
           response => {
-            console.log(response.data);
-            console.log(url);
-            this.article_card_data.data = response.data;
-            this.article_card_data.open = true;
+            if ("statistical_data" in response.data){
+              this.article_card_data.data = response.data;
+              this.article_card_data.open = true;
+            }else{
+              ElMessage({
+              message: "未获取到文章卡片òᆺó\n如果持续出现此错误，检查数据库是否正常",
+              type: 'error',
+            })
+            }
           }
         )
     },

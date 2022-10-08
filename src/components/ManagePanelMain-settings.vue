@@ -206,7 +206,7 @@ export default {
     },
     // 刷新当前组件
     refresh(){
-      this.$emit("refresh")
+      this.$emit("refresh","settings")
     }
   },
   props: ["Config", "current_settings"]

@@ -218,7 +218,7 @@ export default {
     },
     // 刷新当前组件
     refresh() {
-      this.$emit("refresh")
+      this.$emit("refresh","envs")
     }
   },
   created() {
