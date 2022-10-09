@@ -200,31 +200,11 @@ export default {
                 }
               ).then(() => {
                 // 重启api
-                if (this.current_settings.DEPLOY_TYPE === "github"){
-                  // vercel+sqlite，通过api /run_crawl_now 立即运行爬虫一次
-                  this.$axios.get(this.Config.private_api_url + "restart_api", config)
-                    .then(response => {
-                      let data = response.data
-                      if (data.code !== 200) {
-                        ElMessage({
-                          message: data.message,
-                          type: 'error',
-                        })
-                      }
-                    })
-                    .catch(error => {
-                      ElMessage({
-                        message: error.message,
-                        type: 'error',
-                      })
-                    })
-                }else{
                   this.$axios.get(this.Config.private_api_url + "restart_api", config)
                   ElMessage({
                     type: 'success',
                     message: '重启成功',
                   })
-                }
               })
               .catch(error => {
                 ElMessage({
