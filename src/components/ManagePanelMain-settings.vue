@@ -189,7 +189,51 @@ export default {
                 message: data.message,
                 type: 'success',
               })
-              this.refresh()
+            // 上传成功，提示是否重启api/爬虫
+              ElMessageBox.confirm(
+                '更新成功，下次运行爬虫生效，是否立即运行？',
+                '提示',
+                {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning',
+                }
+              ).then(() => {
+                // 重启api
+                if (this.current_settings.DEPLOY_TYPE === "github"){
+                  // vercel+sqlite，通过api /run_crawl_now 立即运行爬虫一次
+                  this.$axios.get(this.Config.private_api_url + "restart_api", config)
+                    .then(response => {
+                      let data = response.data
+                      if (data.code !== 200) {
+                        ElMessage({
+                          message: data.message,
+                          type: 'error',
+                        })
+                      }
+                    })
+                    .catch(error => {
+                      ElMessage({
+                        message: error.message,
+                        type: 'error',
+                      })
+                    })
+                }else{
+                  this.$axios.get(this.Config.private_api_url + "restart_api", config)
+                  ElMessage({
+                    type: 'success',
+                    message: '重启成功',
+                  })
+                }
+              })
+              .catch(error => {
+                ElMessage({
+                  type: 'info',
+                  message: '已取消',
+                })
+              })
+              // 刷新当前组件
+            this.refresh()
             } else {
               ElMessage({
                 message: data.message,

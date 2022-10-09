@@ -118,7 +118,7 @@ export default {
     this.$axios.get(this.Config.private_api_url + "version")
       .then(response => {
         // status:0 不需要更新；status:1 需要更新 status:2 检查更新失败
-        if (response.data.status === 0) {
+        if (response.data.status === 1) {
           ElNotification({
             title: '版本更新提示',
             message: '检测到新版本：' + response.data.latest_version + '，然而当前版本为' + response.data.current_version + '，请及时更新',
