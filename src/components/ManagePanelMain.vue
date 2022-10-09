@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <span class="cf-manage-title">友链朋友圈管理面板</span>
-    <el-button @click="logout" class="cf-manage-exit-btn" round>退出登录</el-button>
+  <div class="ManagePanelMain">
+    <div class="cf-manage-top">
+      <span class="cf-manage-title">友链朋友圈管理面板</span>
+      <el-button @click="logout" class="cf-manage-exit-btn" round>退出登录</el-button>
+    </div>
     <el-tabs
       v-model="current_tab"
       type="card"
@@ -139,40 +141,42 @@ export default {
 </script>
 
 <style scoped>
+  .ManagePanelMain {
+    padding: 0 10px;
+  }
+.ManagePanelMain .cf-manage-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 /*标题css*/
 .cf-manage-title {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 5%;
-  left: 15%;
-  width: 168px;
-  height: 33px;
   overflow-wrap: break-word;
   color: white;
   font-size: 24px;
   font-family: PingFangSC-Regular;
   text-align: center;
   white-space: nowrap;
-  line-height: 33px;
   user-select: none;
 }
 
 /*退出按钮*/
 .cf-manage-exit-btn {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  max-width: 50%;
-  height: 33px;
   font-size: 16px;
-  top: 5%;
-  right: 0;
 }
 
 /*选项卡区域*/
 .cf-manage-tabs-area {
   position: relative;
-  margin: 10% 5% 0 5%;
+  margin: 10px 0px;
 }
 
+:deep(.el-tabs__nav-next) {
+  color: #fff !important;
+}
+:deep(.el-tabs__nav-prev) {
+  color: #fff !important;
+}
 
 </style>

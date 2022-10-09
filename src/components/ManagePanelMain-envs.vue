@@ -17,7 +17,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :offset="7">
+      <el-col>
         <el-form-item>
           <el-button type="primary" @click="submit_form">保存</el-button>
           <el-button type="info" @click="refresh">刷新</el-button>
@@ -264,10 +264,4 @@ export default {
 </script>
 
 <style scoped>
-
-.cf-manage-main-add-btn {
-  margin-left: 30px;
-}
-
-
 </style>
