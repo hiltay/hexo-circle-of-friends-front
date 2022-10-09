@@ -53,6 +53,14 @@ export default {
 </script>
 
 <style scoped>
+/* 移动端适配 */
+@media screen and (max-width: 1200px) {
+  .el-container.cf-manage-pannel {
+    width: 90%;
+    padding: 45px 0 0;
+  }
+}
+
 /*管理面板蒙版开始*/
 #cf-manage-overlay {
   position: fixed;
@@ -82,6 +90,7 @@ export default {
   transform: translate(-50%, -50%);
   left: 50%;
   top: 50%;
+  padding: 45px;
 }
 
 /*管理面板关闭按钮开始*/
@@ -91,7 +100,7 @@ export default {
   color: white;
   cursor: pointer;
   right: 2%;
-  top: 0;
+  top: 5px;
 }
 
 .cf-manage-close-btn:hover {
