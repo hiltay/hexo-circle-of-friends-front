@@ -73,9 +73,9 @@
     <el-row>
       <el-col :span="24">
         <el-form-item  label="HTTP_PROXY">
-          <el-tooltip content="HTTP代理" placement="left" effect="light">
-            <el-input placeholder="[IP]:[端口]，示例：192.168.3.204:18080" v-model="http_proxy"/>
-          </el-tooltip>
+                  <el-tooltip content="是否开启http代理，如需开启，打开此选项同时还要在环境变量配置一个代理地址" placement="left" effect="light">
+            <el-switch v-model="form.HTTP_PROXY" />
+                      </el-tooltip>
         </el-form-item>
       </el-col>
     </el-row>
@@ -147,11 +147,11 @@ export default {
         },
       ],
       // todo 暂存http代理配置 http代理更改env环境
-      http_proxy:"",
       form: {
         LINK: this.current_settings.LINK,
         BLOCK_SITE: this.current_settings.BLOCK_SITE === [] ? this.current_settings.BLOCK_SITE : [""],
         OUTDATE_CLEAN: this.current_settings.OUTDATE_CLEAN,
+        HTTP_PROXY: this.current_settings.HTTP_PROXY,
       }
     }
   },

@@ -6,7 +6,7 @@
       <div class="cf-overshow-head">
         <img class="cf-img-avatar avatar" :src="article_card_data.statistical_data.avatar" @error="loadDefaultImg($event)" alt="avatar">
         <a class="" target="_blank" rel="noopener nofollow"
-           :href="article_card_data.statistical_data.link">{{ article_card_data.statistical_data.author }}</a>
+           :href="article_card_data.statistical_data.link">{{ article_card_data.statistical_data.name }}</a>
       </div>
         <div v-if="article_card_data.article_data.length===0">
           <div class="cf-overshow-content-tail">
