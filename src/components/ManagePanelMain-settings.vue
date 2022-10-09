@@ -93,7 +93,7 @@
 
 <script>
 import {get_cache_token, init_header} from "../utils/tools";
-import { ElMessage } from 'element-plus'
+import { ElMessage,ElMessageBox } from 'element-plus'
 
 export default {
   name: "ManagePanelMain_settings",
