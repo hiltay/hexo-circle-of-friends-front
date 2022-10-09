@@ -46,7 +46,7 @@
           @click="add_link"
         >
           <el-icon>
-            <Plus />
+            <Plus/>
           </el-icon>
         </el-button>
         <el-button
@@ -56,7 +56,7 @@
           @click="del_link(index)"
         >
           <el-icon>
-            <Minus />
+            <Minus/>
           </el-icon>
         </el-button>
       </div>
@@ -84,7 +84,7 @@
           @click="add_blocksite"
         >
           <el-icon>
-            <Plus />
+            <Plus/>
           </el-icon>
         </el-button>
         <el-button
@@ -94,7 +94,7 @@
           @click="del_blocksite(index)"
         >
           <el-icon>
-            <Minus />
+            <Minus/>
           </el-icon>
         </el-button>
       </el-col>
@@ -107,7 +107,7 @@
             placement="left"
             effect="light"
           >
-            <el-input placeholder="示例：60" v-model="form.OUTDATE_CLEAN" />
+            <el-input placeholder="示例：60" v-model="form.OUTDATE_CLEAN"/>
           </el-tooltip>
         </el-form-item>
       </el-col>
@@ -120,7 +120,7 @@
             placement="left"
             effect="light"
           >
-            <el-switch v-model="form.HTTP_PROXY" />
+            <el-switch v-model="form.HTTP_PROXY"/>
           </el-tooltip>
         </el-form-item>
       </el-col>
@@ -137,8 +137,8 @@
 </template>
 
 <script>
-import { get_cache_token, init_header } from "../utils/tools";
-import { ElMessage, ElMessageBox } from "element-plus";
+import {get_cache_token, init_header} from "../utils/tools";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 export default {
   name: "ManagePanelMain_settings",
@@ -224,8 +224,16 @@ export default {
       this.form.BLOCK_SITE.splice(index, 1);
     },
     submit_form() {
-      let auth_token = get_cache_token();
       // 如果本地有缓存token，尝试直接使用token登录
+      let auth_token = get_cache_token();
+      // 过滤block_site
+      let block_site = []
+      for (let i=0;i<this.form.BLOCK_SITE.length;i++){
+        if (this.form.BLOCK_SITE[i]!==""){
+          block_site.push(this.form.BLOCK_SITE[i])
+        }
+      }
+      this.form.BLOCK_SITE = block_site
       let body = this.form;
       if (auth_token) {
         let config = init_header(auth_token);
@@ -297,12 +305,15 @@ export default {
     flex-direction: column;
   }
 }
+
 .settings-item {
   display: flex;
 }
+
 .settings-item .item-col {
-    display: flex;
+  display: flex;
 }
+
 .cf-manage-main-add-btn {
   margin-left: 30px;
 }

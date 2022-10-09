@@ -7,7 +7,7 @@
     center
     :closable="false"
   />
-  <div class="tip">如需切换数据库，请配置对应环境变量，然后点击保存：</div>
+  <div class="cf-manage-tip">如需切换数据库，请配置对应环境变量，然后点击保存：</div>
   <el-radio-group v-model="current_db">
     <el-radio v-if="this.current_settings.DATABASE !== 'sqlite'" label="sqlite"
       >sqlite</el-radio
@@ -398,7 +398,7 @@ export default {
 .cf-manage-main-add-btn {
   margin-left: 30px;
 }
-.tip {
+.cf-manage-tip {
   color: #fff;
 }
 </style>
