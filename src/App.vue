@@ -27,7 +27,7 @@ import ManagePanel from './components/ManagePanel.vue'
 import DefaultConfig from './utils/Config'
 import {ElMessage} from "element-plus";
 
-function init_config(default_config){
+function init_config(default_config) {
   if (typeof (UserConfig) !== 'undefined') {
     for (let key in UserConfig) {
       if (default_config[key]) {
@@ -120,14 +120,14 @@ export default {
       this.$axios.get(url)
         .then(
           response => {
-            if ("statistical_data" in response.data){
+            if ("statistical_data" in response.data) {
               this.article_card_data.data = response.data;
               this.article_card_data.open = true;
-            }else{
+            } else {
               ElMessage({
-              message: "未获取到文章卡片òᆺó\n如果持续出现此错误，检查数据库是否正常",
-              type: 'error',
-            })
+                message: "未获取到文章卡片òᆺó\n如果持续出现此错误，检查数据库是否正常",
+                type: 'error',
+              })
             }
           }
         )

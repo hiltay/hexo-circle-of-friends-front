@@ -27,10 +27,12 @@
                                   :key="component_keys.switchdb"
                                   @refresh="refresh_component"></ManagePanelMain_switchdb>
       </el-tab-pane>
+      <el-tab-pane label="状态监控" name="status">
+        <ManagePanelMain_status :Config="Config" :key="component_keys.status"></ManagePanelMain_status>
+      </el-tab-pane>
       <el-tab-pane label="关于" name="about">
         <ManagePanelMain_about></ManagePanelMain_about>
       </el-tab-pane>
-      <!-- todo 状态监测：程序运行状态 -->
     </el-tabs>
   </div>
 </template>
@@ -40,6 +42,7 @@ import ManagePanelMain_settings from './ManagePanelMain-settings'
 import ManagePanelMain_envs from './ManagePanelMain-envs'
 import ManagePanelMain_links from './ManagePanelMain-links'
 import ManagePanelMain_switchdb from './ManagePanelMain-switchdb'
+import ManagePanelMain_status from './ManagePanelMain-status'
 import ManagePanelMain_about from './ManagePanelMain-about'
 import {get_cache_token, init_header} from "../utils/tools";
 import {ElMessage, ElNotification} from "element-plus";
@@ -60,7 +63,8 @@ export default {
         settings: 0,
         envs: 0,
         links: 0,
-        switchdb: 0
+        switchdb: 0,
+        status: 0
       }
 
     }
@@ -136,21 +140,24 @@ export default {
     ManagePanelMain_envs,
     ManagePanelMain_links,
     ManagePanelMain_switchdb,
+    ManagePanelMain_status,
     ManagePanelMain_about,
   }
 }
 </script>
 
 <style scoped>
-  .ManagePanelMain {
-    padding: 0 10px;
-  }
+.ManagePanelMain {
+  padding: 0 10px;
+}
+
 .ManagePanelMain .cf-manage-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
+
 /*标题css*/
 .cf-manage-title {
   overflow-wrap: break-word;
@@ -176,6 +183,7 @@ export default {
 :deep(.el-tabs__nav-next) {
   color: #fff !important;
 }
+
 :deep(.el-tabs__nav-prev) {
   color: #fff !important;
 }
