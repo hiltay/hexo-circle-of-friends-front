@@ -67,7 +67,7 @@ export default {
         this.$axios.get(this.Config.private_api_url + "crawler_status", config)
           .then(response => {
             let data = response.data
-            if (data !=="运行中" || data!=="未运行" || data!=="未知"){
+            if (data.status !=="运行中" && data.status!=="未运行" && data.status!=="未知"){
               this.status = "未知"
             }else{
               this.status = data.status
