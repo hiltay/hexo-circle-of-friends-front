@@ -30,6 +30,7 @@
       <el-tab-pane label="关于" name="about">
         <ManagePanelMain_about></ManagePanelMain_about>
       </el-tab-pane>
+      <!-- todo 状态监测：程序运行状态 -->
     </el-tabs>
   </div>
 </template>

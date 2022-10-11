@@ -21,22 +21,27 @@
         </el-col>
       </el-row>
       <el-row v-for="(value,index) in list" :key="index">
-        <el-col :span="7">
+        <el-col :span="6">
           <el-form-item label="名称" label-width="50px">
             <el-input v-model="value[0]"/>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="主页" label-width="50px">
             <el-input v-model="value[1]"/>
           </el-form-item>
         </el-col>
-        <el-col :span="7">
+        <el-col :span="6">
           <el-form-item label="头像" label-width="50px">
             <el-input v-model="value[2]"/>
           </el-form-item>
         </el-col>
-        <el-col :span="2">
+        <el-col :span="5">
+          <el-form-item label="后缀" label-width="50px">
+            <el-input v-model="value[3]"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="1">
           <el-button circle @click="del_link(index)">
             <el-icon>
               <Minus/>
@@ -140,7 +145,13 @@ export default {
     for(let i=0;i<this.current_settings.SETTINGS_FRIENDS_LINKS.list.length;i++){
       // 读取远程配置，添加现有的配置项友链
       let item = this.current_settings.SETTINGS_FRIENDS_LINKS.list[i]
-      this.list.push([item[0],item[1],item[2]])
+      if (item.length===3){
+        // 未携带suffix
+        this.list.push([item[0],item[1],item[2]])
+      }else if (item.length===4){
+        // 携带suffix
+        this.list.push([item[0],item[1],item[2],item[3]])
+      }
     }
     this.json_api = this.current_settings.SETTINGS_FRIENDS_LINKS.json_api
   },
