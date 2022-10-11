@@ -86,7 +86,7 @@ export default {
     },
   },
   created() {
-    this.check_crawler_status()
+    this.timer = setTimeout(this.check_crawler_status, 1000 * 60 * 60)
   },
   props: ["Config"],
 }
