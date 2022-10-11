@@ -7,8 +7,9 @@
     center
     :closable="false"
   />
-
   <el-button class="cf-manage-center-btn" type="primary" :disabled="status==='运行中'" @click="run_crawler">立即运行爬虫
+  </el-button>
+  <el-button class="cf-manage-center-btn" type="primary" @click="check_crawler_status">检测运行状态
   </el-button>
 
 </template>
@@ -66,9 +67,13 @@ export default {
         this.$axios.get(this.Config.private_api_url + "crawler_status", config)
           .then(response => {
             let data = response.data
-            this.status = data.status
+            if (data !=="运行中" || data!=="未运行" || data!=="未知"){
+              this.status = "未知"
+            }else{
+              this.status = data.status
+            }
           })
-          .catch(error => {
+          .catch(() => {
             this.status = "未知"
           })
       }
@@ -76,11 +81,11 @@ export default {
         clearTimeout(this.timer)
       }
       if (this.status === "运行中") {
-        // 在运行中每10秒检查一次
+        // 在运行中每10s检查一次
         this.timer = setTimeout(this.check_crawler_status, 1000 * 10)
       } else {
-        // 在非运行状态每1小时检查一次
-        this.timer = setTimeout(this.check_crawler_status, 1000 * 60 * 60)
+        // 在非运行状态每60s检查一次
+        this.timer = setTimeout(this.check_crawler_status, 1000 * 60)
       }
 
     },
