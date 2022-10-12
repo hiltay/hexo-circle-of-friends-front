@@ -6,7 +6,8 @@
            :data-title="data.title">{{ data.title }}</a>
         <span class="cf-article-floor">{{ data.floor }}</span>
         <div class="cf-article-avatar no-lightbox flink-item-icon">
-          <img class="cf-img-avatar avatar" :src="data.avatar" alt="avatar" @error="loadDefaultImg($event)">
+          <!-- 添加no-lightbox解决渲染问题 -->
+          <img class="cf-img-avatar avatar no-lightbox" :src="data.avatar" alt="avatar" @error="loadDefaultImg($event)">
           <span class="cf-article-author" @click="open_article_card(data.link)">{{ data.author }}</span>
           <span class="cf-article-time">
             <span v-if="Config.sort_rule==='created'" class="cf-time-created">
