@@ -199,6 +199,7 @@ export default {
               return;
             }
           }
+          body["STORAGE_TYPE"] = "sqlite"
         }
         if (this.current_db === "leancloud") {
           for (let key in this.leancloud_env) {
@@ -212,6 +213,7 @@ export default {
               return;
             }
           }
+          body["STORAGE_TYPE"] = "leancloud"
         }
         if (this.current_db === "mysql") {
           for (let key in this.mysql_env) {
@@ -225,6 +227,7 @@ export default {
               return;
             }
           }
+          body["STORAGE_TYPE"] = "mysql"
         }
         if (this.current_db === "mongodb") {
           for (let key in this.mongodb_env) {
@@ -238,6 +241,7 @@ export default {
               return;
             }
           }
+          body["STORAGE_TYPE"] = "mongodb"
         }
         // 初始化请求头
         let config = init_header(auth_token);
