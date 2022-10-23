@@ -91,7 +91,12 @@ export default {
     },
   },
   created() {
-    this.timer = setTimeout(this.check_crawler_status, 1000 * 60 * 60)
+    this.check_crawler_status()
+  },
+  unmounted() {
+    if (this.timer !== null) {
+      clearTimeout(this.timer)
+    }
   },
   props: ["Config"],
 }
