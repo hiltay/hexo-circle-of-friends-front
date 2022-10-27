@@ -98,6 +98,11 @@ export default {
       clearTimeout(this.timer)
     }
   },
+  unmounted() {
+    if (this.timer !== null) {
+      clearTimeout(this.timer)
+    }
+  },
   props: ["Config"],
 }
 </script>
