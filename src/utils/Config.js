@@ -1,8 +1,7 @@
 let DefaultConfig = {
   // private_api_url: 'https://fcircle.yyyzyyyz.cn',
-  // private_api_url: 'http://192.168.142.88:8000',
-  private_api_url: "https://friends.anzhiy.cn/",
-  public_api_url: "https://friends.anzhiy.cn/",
+  private_api_url: 'http://192.168.142.88:8000',
+  public_api_url: "https://fcircle-pub.rct.cool/",
   page_turning_number: 10,
   error_img: "https://sdn.geekzu.org/avatar/57d8260dfb55501c37dde588e7c3852c",
   sort_rule: "created",
