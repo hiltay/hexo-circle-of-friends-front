@@ -1,0 +1,42 @@
+#page:has(#hexo-circle-of-friends-root) {
+  backdrop-filter: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+:root {
+  --lmm-hover: #fe5186;
+  --lmm-fontcolor: #363636;
+  --lmm-background: #f7f9fe;
+  --lmm-floorcolor: #a9a9b3;
+  --lmm-dark-fontcolor: #a9a9b3;
+  --lmm-dack-background: #252627;
+  --lmm-dark-floorcolor: #454545;
+  --lmm-background-floorcolor: #dedede;
+}
+
+[data-theme="light"] {
+  --lmm-fontcolor: #363636;
+  --lmm-background: #f7f9fe;
+  --lmm-floorcolor: #a9a9b3;
+}
+
+[data-theme="dark"] {
+  --lmm-fontcolor: #a9a9b3;
+  --lmm-background: #252627;
+  --lmm-floorcolor: #454545;
+}
+
+/* element-ui 全局按钮样式开始 */
+.el-button:focus,
+.el-button:hover {
+  color: var(--lmm-hover) !important;
+}
+
+/* element-ui 全局按钮样式结束 */
+
+/* element-ui 全局表单样式开始 */
+.el-form-item__label {
+  color: #ffffff !important;
+}
+
+/* element-ui 全局表单样式结束 */

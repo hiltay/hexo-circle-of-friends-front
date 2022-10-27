@@ -93,6 +93,11 @@ export default {
   created() {
     this.timer = setTimeout(this.check_crawler_status, 1000 * 60 * 60)
   },
+  unmounted() {
+    if (this.timer !== null) {
+      clearTimeout(this.timer)
+    }
+  },
   props: ["Config"],
 }
 </script>
