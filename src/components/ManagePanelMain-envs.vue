@@ -221,6 +221,12 @@ export default {
         value: "",
         placeholder: "爬虫运行小时间隔，默认：6"
       }
+    }else{
+      // docker 部署
+      this.all_env["RUN_PER_HOURS"] = {
+        value: "",
+        placeholder: "爬虫运行小时间隔，默认：6"
+      }
     }
     // 获取env
     // 如果本地有缓存token，尝试直接使用token登录

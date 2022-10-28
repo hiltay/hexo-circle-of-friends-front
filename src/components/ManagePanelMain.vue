@@ -122,17 +122,29 @@ export default {
   },
   created() {
     this.read_current_settings()
+    // 后端版本检测
     this.$axios.get(this.Config.private_api_url + "version")
       .then(response => {
         // status:0 不需要更新；status:1 需要更新 status:2 检查更新失败
         if (response.data.status === 1) {
           ElNotification({
             title: '版本更新提示',
-            message: '检测到新版本：' + response.data.latest_version + '，然而当前版本为' + response.data.current_version + '，请及时更新',
+            message: '检测到后端新版本：' + response.data.latest_version + '，然而当前版本为：' + response.data.current_version + '，请及时更新后端版本',
             type: 'warning',
           })
         }
       })
+    // 前端版本检测
+    this.$axios.get("https://fcircle-doc.yyyzyyyz.cn/front_version.txt")
+    .then(response => {
+      if (response.data !== this.$fcircle_front_version) {
+        ElNotification({
+          title: '版本更新提示',
+          message: '检测到前端新版本：' + response.data + '，然而当前版本为：' + this.$fcircle_front_version + '，请及时更新前端版本',
+          type: 'warning',
+        })
+      }
+    })
   },
   props: ["Config"],
   components: {
