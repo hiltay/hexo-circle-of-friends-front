@@ -1,6 +1,6 @@
 {
   "name": "fcircle-theme-yyyz",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
