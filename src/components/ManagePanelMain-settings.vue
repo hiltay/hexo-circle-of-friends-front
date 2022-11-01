@@ -207,32 +207,79 @@ export default {
                       type: "success",
                       message: "重置成功",
                     });
-                  })
-                }).catch((error) => { })
-              }
+                    // 上传成功，提示是否重启api/爬虫
+                    ElMessageBox.confirm(
+                      "更新成功，下次运行爬虫生效，是否立即运行？",
+                      "提示",
+                      {
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        type: "warning",
+                      }
+                    )
+                      .then(() => {
+                        // 重启api
+                        this.$axios.get(
+                          this.Config.private_api_url + "restart_api",
+                          config
+                        );
+                        ElMessage({
+                          type: "success",
+                          message: "重启成功",
+                        });
+                      })
+                      .catch((error) => { });
 
-              // 上传成功，提示是否重启api/爬虫
-              ElMessageBox.confirm(
-                "更新成功，下次运行爬虫生效，是否立即运行？",
-                "提示",
-                {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning",
-                }
-              )
-                .then(() => {
-                  // 重启api
-                  this.$axios.get(
-                    this.Config.private_api_url + "restart_api",
-                    config
-                  );
-                  ElMessage({
-                    type: "success",
-                    message: "重启成功",
-                  });
+                  })
+                }).catch((error) => {
+                  // 上传成功，提示是否重启api/爬虫
+                  ElMessageBox.confirm(
+                    "更新成功，下次运行爬虫生效，是否立即运行？",
+                    "提示",
+                    {
+                      confirmButtonText: "确定",
+                      cancelButtonText: "取消",
+                      type: "warning",
+                    }
+                  )
+                    .then(() => {
+                      // 重启api
+                      this.$axios.get(
+                        this.Config.private_api_url + "restart_api",
+                        config
+                      );
+                      ElMessage({
+                        type: "success",
+                        message: "重启成功",
+                      });
+                    })
+                    .catch((error) => { });
                 })
-                .catch((error) => { });
+              }
+              else {
+                // 上传成功，提示是否重启api/爬虫
+                ElMessageBox.confirm(
+                  "更新成功，下次运行爬虫生效，是否立即运行？",
+                  "提示",
+                  {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning",
+                  }
+                )
+                  .then(() => {
+                    // 重启api
+                    this.$axios.get(
+                      this.Config.private_api_url + "restart_api",
+                      config
+                    );
+                    ElMessage({
+                      type: "success",
+                      message: "重启成功",
+                    });
+                  })
+                  .catch((error) => { });
+              }
               // 刷新当前组件
               this.refresh();
             } else {
