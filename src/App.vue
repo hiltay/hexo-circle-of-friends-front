@@ -49,6 +49,13 @@ function init_config(default_config) {
       }
     }
   }
+  // handle slash
+  if (!default_config.private_api_url.endsWith("/")){
+    default_config.private_api_url = default_config.private_api_url+"/";
+  }
+  if (!default_config.public_api_url.endsWith("/")){
+    default_config.public_api_url = default_config.public_api_url+"/";
+  }
   return default_config;
 }
 

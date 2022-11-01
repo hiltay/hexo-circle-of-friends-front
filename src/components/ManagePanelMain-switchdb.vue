@@ -1,36 +1,14 @@
 <template>
-  <el-alert
-    title="当前使用数据库"
-    type="success"
-    :description="current_settings.DATABASE"
-    show-icon
-    center
-    :closable="false"
-  />
+  <el-alert title="当前使用数据库" type="success" :description="current_settings.DATABASE" show-icon center
+    :closable="false" />
   <div class="cf-manage-tip">如需切换数据库，请配置对应环境变量，然后点击保存：</div>
   <el-radio-group v-model="current_db">
-    <el-radio v-if="this.current_settings.DATABASE !== 'sqlite'" label="sqlite"
-      >sqlite</el-radio
-    >
-    <el-radio
-      v-if="this.current_settings.DATABASE !== 'leancloud'"
-      label="leancloud"
-      >leancloud</el-radio
-    >
-    <el-radio v-if="this.current_settings.DATABASE !== 'mysql'" label="mysql"
-      >mysql</el-radio
-    >
-    <el-radio
-      v-if="this.current_settings.DATABASE !== 'mongodb'"
-      label="mongodb"
-      >mongodb</el-radio
-    >
+    <el-radio v-if="this.current_settings.DATABASE !== 'sqlite'" label="sqlite">sqlite</el-radio>
+    <el-radio v-if="this.current_settings.DATABASE !== 'leancloud'" label="leancloud">leancloud</el-radio>
+    <el-radio v-if="this.current_settings.DATABASE !== 'mysql'" label="mysql">mysql</el-radio>
+    <el-radio v-if="this.current_settings.DATABASE !== 'mongodb'" label="mongodb">mongodb</el-radio>
   </el-radio-group>
-  <el-form
-    v-if="current_db === 'sqlite'"
-    :model="sqlite_env"
-    label-width="120px"
-  >
+  <el-form v-if="current_db === 'sqlite'" :model="sqlite_env" label-width="120px">
     <el-row v-for="(value, name) in sqlite_env" :key="name">
       <el-col :span="22" :offset="2">
         <el-form-item :label="name">
@@ -42,16 +20,13 @@
       <el-col>
         <el-form-item>
           <el-button type="primary" @click="submit_form">保存</el-button>
+          <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
           <el-button type="info" @click="refresh">刷新</el-button>
         </el-form-item>
       </el-col>
     </el-row>
   </el-form>
-  <el-form
-    v-if="current_db === 'leancloud'"
-    :model="leancloud_env"
-    label-width="120px"
-  >
+  <el-form v-if="current_db === 'leancloud'" :model="leancloud_env" label-width="120px">
     <el-row v-for="(value, name) in leancloud_env" :key="name">
       <el-col :span="22" :offset="2">
         <el-form-item :label="name">
@@ -63,6 +38,7 @@
       <el-col>
         <el-form-item>
           <el-button type="primary" @click="submit_form">保存</el-button>
+          <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
           <el-button type="info" @click="refresh">刷新</el-button>
         </el-form-item>
       </el-col>
@@ -80,16 +56,13 @@
       <el-col>
         <el-form-item>
           <el-button type="primary" @click="submit_form">保存</el-button>
+          <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
           <el-button type="info" @click="refresh">刷新</el-button>
         </el-form-item>
       </el-col>
     </el-row>
   </el-form>
-  <el-form
-    v-if="current_db === 'mongodb'"
-    :model="mongodb_env"
-    label-width="120px"
-  >
+  <el-form v-if="current_db === 'mongodb'" :model="mongodb_env" label-width="120px">
     <el-row v-for="(value, name) in mongodb_env" :key="name">
       <el-col :span="22" :offset="2">
         <el-form-item :label="name">
@@ -101,6 +74,7 @@
       <el-col>
         <el-form-item>
           <el-button type="primary" @click="submit_form">保存</el-button>
+          <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
           <el-button type="info" @click="refresh">刷新</el-button>
         </el-form-item>
       </el-col>
@@ -386,6 +360,22 @@ export default {
       // 最后刷新本页面
       this.refresh();
     },
+    reset_db() {
+      // 如果本地有缓存token，尝试直接使用token登录
+      let auth_token = get_cache_token();
+      if (auth_token) {
+        let config = init_header(auth_token);
+        this.$axios.delete(
+          this.Config.private_api_url + "db_reset",
+          config
+        ).then(() => {
+          ElMessage({
+            type: "success",
+            message: "重置成功",
+          });
+        })
+      }
+    },
     // 刷新当前组件
     refresh() {
       this.$emit("refresh", "switchdb");
@@ -402,6 +392,7 @@ export default {
 .cf-manage-main-add-btn {
   margin-left: 30px;
 }
+
 .cf-manage-tip {
   color: #fff;
 }

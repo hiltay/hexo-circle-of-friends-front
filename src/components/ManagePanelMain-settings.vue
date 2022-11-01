@@ -3,60 +3,29 @@
     <div v-for="(item, index) in form.LINK" :key="index" class="settings-item">
       <div class="item-col">
         <el-form-item label="link">
-          <el-tooltip
-            content="爬取起始页面，填写你的友链页地址"
-            placement="left"
-            :hide-after="50"
-            effect="light"
-          >
-            <el-input
-              v-model="form.LINK[index].link"
-              placeholder="示例：https://example.com/link/"
-            />
+          <el-tooltip content="爬取起始页面，填写你的友链页地址" placement="left" :hide-after="50" effect="light">
+            <el-input v-model="form.LINK[index].link" placeholder="示例：https://example.com/link/" />
           </el-tooltip>
         </el-form-item>
       </div>
       <div class="item-col">
         <el-form-item label="theme">
-          <el-tooltip
-            content="爬取起始页面的主题"
-            placement="left"
-            :hide-after="50"
-            effect="light"
-          >
+          <el-tooltip content="爬取起始页面的主题" placement="left" :hide-after="50" effect="light">
             <el-select v-model="form.LINK[index].theme" placeholder="Select">
-              <el-option-group
-                v-for="group in theme_options"
-                :key="group.label"
-                :label="group.label"
-              >
-                <el-option
-                  v-for="item in group.options"
-                  :key="item.value"
-                  :value="item.value"
-                />
+              <el-option-group v-for="group in theme_options" :key="group.label" :label="group.label">
+                <el-option v-for="item in group.options" :key="item.value" :value="item.value" />
               </el-option-group>
             </el-select>
           </el-tooltip>
         </el-form-item>
-        <el-button
-          v-if="index === 0"
-          circle
-          class="cf-manage-main-add-btn"
-          @click="add_link"
-        >
+        <el-button v-if="index === 0" circle class="cf-manage-main-add-btn" @click="add_link">
           <el-icon>
-            <Plus/>
+            <Plus />
           </el-icon>
         </el-button>
-        <el-button
-          v-if="index !== 0"
-          circle
-          class="cf-manage-main-add-btn"
-          @click="del_link(index)"
-        >
+        <el-button v-if="index !== 0" circle class="cf-manage-main-add-btn" @click="del_link(index)">
           <el-icon>
-            <Minus/>
+            <Minus />
           </el-icon>
         </el-button>
       </div>
@@ -64,37 +33,20 @@
     <el-row v-for="(item, index) in form.BLOCK_SITE" :key="index">
       <el-col :span="22" :xs="15" :sm="17" :md="17" :lg="12" :xl="12">
         <el-form-item label="BLOCK_SITE">
-          <el-tooltip
-            content="屏蔽站点，支持正则表达式"
-            placement="left"
-            effect="light"
-          >
-            <el-input
-              placeholder="非必填，示例：https://example.com/"
-              v-model="form.BLOCK_SITE[index]"
-            />
+          <el-tooltip content="屏蔽站点，支持正则表达式" placement="left" effect="light">
+            <el-input placeholder="非必填，示例：https://example.com/" v-model="form.BLOCK_SITE[index]" />
           </el-tooltip>
         </el-form-item>
       </el-col>
       <el-col :span="2">
-        <el-button
-          v-if="index === 0"
-          circle
-          class="cf-manage-main-add-btn"
-          @click="add_blocksite"
-        >
+        <el-button v-if="index === 0" circle class="cf-manage-main-add-btn" @click="add_blocksite">
           <el-icon>
-            <Plus/>
+            <Plus />
           </el-icon>
         </el-button>
-        <el-button
-          v-if="index !== 0"
-          circle
-          class="cf-manage-main-add-btn"
-          @click="del_blocksite(index)"
-        >
+        <el-button v-if="index !== 0" circle class="cf-manage-main-add-btn" @click="del_blocksite(index)">
           <el-icon>
-            <Minus/>
+            <Minus />
           </el-icon>
         </el-button>
       </el-col>
@@ -102,12 +54,8 @@
     <el-row>
       <el-col :span="24">
         <el-form-item label="OUTDATE_CLEAN" label-width="auto">
-          <el-tooltip
-            content="数据库文章过期清除时间"
-            placement="left"
-            effect="light"
-          >
-            <el-input placeholder="示例：60" v-model="form.OUTDATE_CLEAN"/>
+          <el-tooltip content="数据库文章过期清除时间" placement="left" effect="light">
+            <el-input placeholder="示例：60" v-model="form.OUTDATE_CLEAN" />
           </el-tooltip>
         </el-form-item>
       </el-col>
@@ -115,12 +63,8 @@
     <el-row>
       <el-col :span="24">
         <el-form-item label="HTTP_PROXY">
-          <el-tooltip
-            content="是否开启http代理，如需开启，打开此选项同时还要在环境变量配置一个代理地址"
-            placement="left"
-            effect="light"
-          >
-            <el-switch v-model="form.HTTP_PROXY"/>
+          <el-tooltip content="是否开启http代理，如需开启，打开此选项同时还要在环境变量配置一个代理地址" placement="left" effect="light">
+            <el-switch v-model="form.HTTP_PROXY" />
           </el-tooltip>
         </el-form-item>
       </el-col>
@@ -137,8 +81,8 @@
 </template>
 
 <script>
-import {get_cache_token, init_header} from "../utils/tools";
-import {ElMessage, ElMessageBox} from "element-plus";
+import { get_cache_token, init_header, arraydeepEqual } from "../utils/tools";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 export default {
   name: "ManagePanelMain_settings",
@@ -193,13 +137,10 @@ export default {
       ],
       // todo 暂存http代理配置 http代理更改env环境
       form: {
-        LINK: this.current_settings.LINK,
-        BLOCK_SITE:
-          this.current_settings.BLOCK_SITE === []
-            ? this.current_settings.BLOCK_SITE
-            : [""],
-        OUTDATE_CLEAN: this.current_settings.OUTDATE_CLEAN,
-        HTTP_PROXY: this.current_settings.HTTP_PROXY,
+        LINK: "",
+        BLOCK_SITE: [],
+        OUTDATE_CLEAN: "",
+        HTTP_PROXY: "",
       },
     };
   },
@@ -228,8 +169,8 @@ export default {
       let auth_token = get_cache_token();
       // 过滤block_site
       let block_site = []
-      for (let i=0;i<this.form.BLOCK_SITE.length;i++){
-        if (this.form.BLOCK_SITE[i]!==""){
+      for (let i = 0; i < this.form.BLOCK_SITE.length; i++) {
+        if (this.form.BLOCK_SITE[i] !== "") {
           block_site.push(this.form.BLOCK_SITE[i])
         }
       }
@@ -246,6 +187,30 @@ export default {
                 message: data.message,
                 type: "success",
               });
+              // 重置数据库提醒
+              if (!arraydeepEqual(body.LINK, this.current_settings.LINK)) {
+                ElMessageBox.confirm(
+                  "检测到抓取起始url有变化，是否需要重置数据库？",
+                  "提示",
+                  {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning",
+                  }
+                ).then(() => {
+                  // 重置数据库，删除文章和友链表
+                  this.$axios.delete(
+                    this.Config.private_api_url + "db_reset",
+                    config
+                  ).then(() => {
+                    ElMessage({
+                      type: "success",
+                      message: "重置成功",
+                    });
+                  })
+                }).catch((error) => { })
+              }
+
               // 上传成功，提示是否重启api/爬虫
               ElMessageBox.confirm(
                 "更新成功，下次运行爬虫生效，是否立即运行？",
@@ -267,12 +232,7 @@ export default {
                     message: "重启成功",
                   });
                 })
-                .catch((error) => {
-                  ElMessage({
-                    type: "info",
-                    message: "已取消",
-                  });
-                });
+                .catch((error) => { });
               // 刷新当前组件
               this.refresh();
             } else {
@@ -294,6 +254,16 @@ export default {
     refresh() {
       this.$emit("refresh", "settings");
     },
+  },
+  created() {
+    this.form.LINK = this.$_.cloneDeep(this.current_settings.LINK)
+    if (this.current_settings.BLOCK_SITE.length === 0) {
+      this.form.BLOCK_SITE.push("");
+    } else {
+      this.form.BLOCK_SITE = this.$_.cloneDeep(this.current_settings.BLOCK_SITE)
+    }
+    this.form.OUTDATE_CLEAN = this.current_settings.OUTDATE_CLEAN
+    this.form.HTTP_PROXY = this.current_settings.HTTP_PROXY
   },
   props: ["Config", "current_settings"],
 };
@@ -317,5 +287,4 @@ export default {
 .cf-manage-main-add-btn {
   margin-left: 30px;
 }
-
 </style>
