@@ -35,14 +35,12 @@ class Request {
     }
     request<T>(config: RequestConfig): Promise<T> {
         return new Promise((resolve, reject) => {
-            // 如果我们为单个请求设置拦截器，这里使用单个请求的拦截器
             if (config.interceptors?.requestInterceptors) {
                 config = config.interceptors.requestInterceptors(config)
             }
             this.instance
                 .request<any, T>(config)
                 .then(res => {
-                    // 如果我们为单个响应设置拦截器，这里使用单个响应的拦截器
                     if (config.interceptors?.responseInterceptors) {
                         res = config.interceptors.responseInterceptors<T>(res)
                     }
@@ -56,23 +54,23 @@ class Request {
     }
     get<T = any>(config: RequestConfig): Promise<T> {
         return this.request<T>({ ...config, method: "GET" });
-      }
-    
-      post<T = any>(config: RequestConfig): Promise<T> {
+    }
+
+    post<T = any>(config: RequestConfig): Promise<T> {
         return this.request<T>({ ...config, method: "POST" });
-      }
-    
-      delete<T = any>(config: RequestConfig): Promise<T> {
+    }
+
+    delete<T = any>(config: RequestConfig): Promise<T> {
         return this.request<T>({ ...config, method: "DELETE" });
-      }
-    
-      patch<T = any>(config: RequestConfig): Promise<T> {
+    }
+
+    patch<T = any>(config: RequestConfig): Promise<T> {
         return this.request<T>({ ...config, method: "PATCH" });
-      }
-    
-      put<T = any>(config: RequestConfig): Promise<T> {
+    }
+
+    put<T = any>(config: RequestConfig): Promise<T> {
         return this.request<T>({ ...config, method: "PUT" });
-      }
+    }
 
 }
 

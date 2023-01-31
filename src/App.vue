@@ -1,12 +1,19 @@
 <template>
-  <Header></Header>
-  <span>111</span>
+  <Main_Component />
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import Header from '@/components/main/Header.vue'
+import { ref, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import Main_Component from '@/components/main/Index.vue'
+import useMainStore from "@/stores/main"
+const MainStore = useMainStore();
 
+onMounted(() => {
+  MainStore.get_data()
+}
+
+)
 
 </script>
 
@@ -180,6 +187,7 @@ import Header from '@/components/main/Header.vue'
 }
 
 @media screen and (max-width: 300px) {
+
   #cf-state,
   .cf-article-time {
     display: none;
