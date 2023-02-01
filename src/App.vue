@@ -1,19 +1,17 @@
 <template>
+  <ManagePanel v-if="manage_panel_open"></ManagePanel>
   <Main_Component />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import Main_Component from '@/components/main/Index.vue'
+import ManagePanel from '@/components/manage_panel/ManagePanel.vue'
 import useMainStore from "@/stores/main"
 const MainStore = useMainStore();
+let { manage_panel_open } = storeToRefs(MainStore);
 
-onMounted(() => {
-  MainStore.get_data()
-}
-
-)
+MainStore.get_data()
 
 </script>
 

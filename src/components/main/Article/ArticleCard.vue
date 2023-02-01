@@ -32,17 +32,9 @@
 
 <script setup lang="ts">
 import useMainStore from "@/stores/main"
-import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 const MainStore = useMainStore();
 let { article_card, Config } = storeToRefs(MainStore);
-const emit = defineEmits(['close_article_card'])
-
-// data() {
-//   return {
-//     show:false // 控制淡入淡出
-//   }
-// },
 
 // 关闭文章卡片
 function close_article_card() {

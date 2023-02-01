@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { getAllArticleInfo, getArticleCardInfo } from "@/interfaces/guest"
 import cache from "@/utils/cache"
 import DefaultConfig from '@/utils/Config';
-import {showMessage} from "@/utils/tooltip"
+import { showMessage } from "@/utils/tooltip"
 
 function init_config(default_config: any): any {
     if (typeof UserConfig !== "undefined") {
@@ -44,8 +44,9 @@ const useMainStore = defineStore("main", {
         article_card: {
             show: false,
             data: ""
-        } as any
-
+        } as any,
+        // 管理面板是否打开
+        manage_panel_open: false,
     }),
     getters: {
         get_current_article_data(state): any {
@@ -70,17 +71,17 @@ const useMainStore = defineStore("main", {
             // 本地加载
             let CreatedData = cache.getCache(current_api + "CreatedData")
             let UpdatedData = cache.getCache(current_api + "UpdatedData")
-            console.log(CreatedData)
-            console.log(UpdatedData)
             if (!CreatedData) {
-                CreatedData = await getAllArticleInfo(current_api, "created")
+                let res = await getAllArticleInfo(current_api, "created")
+                CreatedData = res.data
                 // 将本次获取放入缓存
                 if (CreatedData) {
                     cache.setCache(current_api + "CreatedData", CreatedData, false, this.Config.expire_days)
                 }
             }
             if (!UpdatedData) {
-                UpdatedData = await getAllArticleInfo(current_api, "updated")
+                let res =  await getAllArticleInfo(current_api, "updated")
+                UpdatedData = res.data
                 // 将本次获取放入缓存
                 if (UpdatedData) {
                     cache.setCache(current_api + "UpdatedData", UpdatedData, false, this.Config.expire_days)
@@ -90,27 +91,39 @@ const useMainStore = defineStore("main", {
             this.all_article_data.updated = UpdatedData
             this.is_data_loaded = true
         },
-        async get_article_card_data(link: string) {
-            console.log(111)
-            let data = await getArticleCardInfo(this.get_current_base_api, link)
+        async get_article_card_data(link?: string) {
+            let res = await getArticleCardInfo(this.get_current_base_api, link)
+            let data = res.data
             if ("statistical_data" in data) {
                 this.article_card.data = data
                 this.article_card.show = true
-              } else {
-                showMessage("未获取到文章卡片òᆺó\n如果持续出现此错误，检查数据库是否正常","error")
-              }
+            } else {
+                showMessage("未获取到文章卡片òᆺó\n如果持续出现此错误，检查数据库是否正常", "error")
+            }
         },
         add_current_arcitle_num() {
+            // 当前文章数量增加
             this.current_arcitle_num += this.Config.page_turning_number;
         },
         change_current_sort_rule() {
+            // 切换当前排序规则
             this.current_sort_rule === "created" ? this.current_sort_rule = "updated" : this.current_sort_rule = "created";
         },
         change_current_api() {
+            // 切换当前api
             this.current_api === "private" ? this.current_api = "public" : this.current_api = "private";
         },
-        close_article_card(){
-            this.article_card.show=false;
+        close_article_card() {
+            // 关闭文章卡片
+            this.article_card.show = false;
+        },
+        open_manage_panel() {
+            // 打开管理面板
+            this.manage_panel_open = true;
+        },
+        close_manage_panel() {
+            // 关闭管理面板
+            this.manage_panel_open = false;
         }
 
     },

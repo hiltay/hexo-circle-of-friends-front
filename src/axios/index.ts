@@ -28,7 +28,7 @@ class Request {
 
         this.instance.interceptors.response.use(
             (res: AxiosResponse) => {
-                return res.data
+                return res
             },
             (err: any) => err,
         )
@@ -40,11 +40,16 @@ class Request {
             }
             this.instance
                 .request<any, T>(config)
-                .then(res => {
+                .then((res: any) => {
                     if (config.interceptors?.responseInterceptors) {
                         res = config.interceptors.responseInterceptors<T>(res)
                     }
-
+                    if ("response" in res) {
+                        res = {
+                            message: res.message,
+                            ...res.response
+                        }
+                    }
                     resolve(res)
                 })
                 .catch((err: any) => {
