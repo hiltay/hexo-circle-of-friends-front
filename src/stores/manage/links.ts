@@ -82,7 +82,7 @@ const useLinksStore = defineStore("links", {
         init_value() {
             const ManageHomeStore = useManageHomeStore();
             this.enable = ManageHomeStore.get_current_settings.SETTINGS_FRIENDS_LINKS.enable
-
+            this.list = []
             for (let i = 0; i < ManageHomeStore.get_current_settings.SETTINGS_FRIENDS_LINKS.list.length; i++) {
                 // 读取远程配置，添加现有的配置项友链
                 let item = ManageHomeStore.get_current_settings.SETTINGS_FRIENDS_LINKS.list[i]
