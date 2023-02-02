@@ -9,10 +9,8 @@
     <p>组件库：<a href="https://element-plus.gitee.io/zh-CN/" target="_blank">Element Plus</a></p>
 </template>
 
-<script>
-export default {
-  name: "ManagePanelMain_settings",
-}
+<script setup lang="ts">
+
 </script>
 
 <style scoped>

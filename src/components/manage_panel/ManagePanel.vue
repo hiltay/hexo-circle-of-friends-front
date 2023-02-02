@@ -10,8 +10,7 @@
           </path>
         </svg>
         <ManagePanelLogin v-if="is_login_page_open" @login_success="login_success"></ManagePanelLogin>
-        <span v-else>111</span>
-        <!-- <ManagePanelMain v-else :Config="Config" @logout="logout"></ManagePanelMain> -->
+        <ManagePanelMain v-else></ManagePanelMain>
       </div>
     </el-container>
 

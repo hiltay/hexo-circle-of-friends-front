@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import axios from "axios";
-import _ from 'lodash'
+
 import "element-plus/dist/index.css";
 import "@/assets/css/index.css";
 import packagejson from '../package.json'
@@ -17,10 +17,4 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 // pinia
 const pinia = createPinia()
 app.use(pinia)
-// axios
-app.config.globalProperties.$axios = axios;
-// version
-app.config.globalProperties.$fcircle_front_version = packagejson.version;
-// lodash
-app.config.globalProperties.$_ = _
 app.mount("#hexo-circle-of-friends-root");

@@ -3,6 +3,7 @@ import { manageLogin, loginWithToken } from "@/interfaces/manage"
 import useMainStore from "../main"
 import cache from "@/utils/cache"
 import { showMessage } from "@/utils/tooltip"
+
 const useLoginStore = defineStore("login", {
     state: () => ({
         // 登录页面是否展示
@@ -25,7 +26,6 @@ const useLoginStore = defineStore("login", {
         },
         async login() {
             const MainStore = useMainStore();
-
             let res = await manageLogin(MainStore.get_current_base_api, this.password)
             switch (res.status) {
                 case 200: {
@@ -34,46 +34,15 @@ const useLoginStore = defineStore("login", {
                         this.is_login_page_open = false;
                         cache.setCache("fcircle-token", data.token)
                         showMessage("登录成功", "success")
-                        break;
+                    }else{
+                        showMessage("密码错误", "error")
                     }
-                }
-                default: {
-                    showMessage("密码错误", "error")
                     break;
                 }
+                default: {
+                    showMessage(res.message, "error")
+                }
             }
-
-
-            // // 登录
-            // let body = {
-            //     "password": this.password
-            // }
-            // // 本地没有token，使用密码登录
-            // this.$axios.post(this.Config.private_api_url + "login", body)
-            //     .then(response => {
-            //         let data = response.data
-            //         if (data.code === 200) {
-            //             // 更新本地缓存
-            //             localStorage.setItem("fcircle-token", data.token)
-            //             this.$emit("login_success")
-            //             this.$message.success({
-            //                 title: '成功',
-            //                 message: '登录成功',
-            //             });
-            //         } else {
-            //             this.$message.error({
-            //                 title: '错误',
-            //                 message: '密码错误',
-            //             });
-            //         }
-            //     })
-            //     .catch(error => {
-            //         ElMessage({
-            //             message: error.message,
-            //             type: 'error',
-            //         })
-            //     })
-
         },
         async login_with_token() {
             const MainStore = useMainStore();
@@ -90,7 +59,14 @@ const useLoginStore = defineStore("login", {
                     break;
                 }
             }
+        },
+        logout(){
+            // 登出
+            cache.deleteCache("fcircle-token")
+            this.is_login_page_open = true;
+            showMessage("已退出登录", "success")
         }
+
     }
 
 }
