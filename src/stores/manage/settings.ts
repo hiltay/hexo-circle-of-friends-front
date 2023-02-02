@@ -11,7 +11,7 @@ const useSettingsStore = defineStore("settings", {
         // todo 暂存http代理配置 http代理更改env环境
         form: {
             LINK: "" as any,
-            BLOCK_SITE: [] as Array<string>,
+            BLOCK_SITE: [""] as Array<string>,
             OUTDATE_CLEAN: "",
             HTTP_PROXY: "",
         }
@@ -115,9 +115,7 @@ const useSettingsStore = defineStore("settings", {
             const ManageHomeStore = useManageHomeStore();
             let current_settings = ManageHomeStore.get_current_settings
             this.form.LINK = _.cloneDeep(current_settings.LINK)
-            if (current_settings.BLOCK_SITE.length === 0) {
-                this.form.BLOCK_SITE.push("");
-            } else {
+            if (current_settings.BLOCK_SITE.length > 0) {
                 this.form.BLOCK_SITE = _.cloneDeep(current_settings.BLOCK_SITE)
             }
             this.form.OUTDATE_CLEAN = current_settings.OUTDATE_CLEAN
