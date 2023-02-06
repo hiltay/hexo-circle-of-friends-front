@@ -1,3 +1,13 @@
+<!--
+ * @Author: yyyz 904108079@qq.com
+ * @Date: 2023-02-02 22:01:24
+ * @LastEditors: yyyz 904108079@qq.com
+ * @LastEditTime: 2023-02-06 22:58:49
+ * @FilePath: \hexo-circle-of-friends-front\src\components\manage_panel\ManagePanelMain\ManagePanelMain.vue
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by yyyz, All Rights Reserved. 
+-->
 <template>
   <div class="ManagePanelMain">
     <div class="cf-manage-top">
@@ -20,6 +30,9 @@
       <el-tab-pane label="状态监控" name="status" :key="component_keys.status">
         <ManagePanelMain_status></ManagePanelMain_status>
       </el-tab-pane>
+      <el-tab-pane label="其它" name="others" :key="component_keys.status">
+        <ManagePanelMain_others></ManagePanelMain_others>
+      </el-tab-pane>
       <el-tab-pane label="关于" name="about">
         <ManagePanelMain_about></ManagePanelMain_about>
       </el-tab-pane>
@@ -33,6 +46,7 @@ import ManagePanelMain_envs from './ManagePanelMain-envs.vue'
 import ManagePanelMain_links from './ManagePanelMain-links.vue'
 import ManagePanelMain_switchdb from './ManagePanelMain-switchdb.vue'
 import ManagePanelMain_status from './ManagePanelMain-status.vue'
+import ManagePanelMain_others from './ManagePanelMain-others.vue'
 import ManagePanelMain_about from './ManagePanelMain-about.vue'
 import { storeToRefs } from 'pinia'
 import useLoginStore from "@/stores/manage/login"

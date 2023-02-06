@@ -96,5 +96,11 @@ export function getCrawlerStatus(url: string,) {
     });
 }
 
+export function downloadLogs(url: string,) {
+    return request_auth.get<any>({
+        url: url + "download_logs",
+    });
+}
+
 
 

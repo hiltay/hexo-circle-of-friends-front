@@ -36,6 +36,7 @@ declare module '@vue/runtime-core' {
     ManagePanelMainAbout: typeof import('./src/components/manage_panel/ManagePanelMain/ManagePanelMain-about.vue')['default']
     ManagePanelMainEnvs: typeof import('./src/components/manage_panel/ManagePanelMain/ManagePanelMain-envs.vue')['default']
     ManagePanelMainLinks: typeof import('./src/components/manage_panel/ManagePanelMain/ManagePanelMain-links.vue')['default']
+    ManagePanelMainOthers: typeof import('./src/components/manage_panel/ManagePanelMain/ManagePanelMain-others.vue')['default']
     ManagePanelMainSettings: typeof import('./src/components/manage_panel/ManagePanelMain/ManagePanelMain-settings.vue')['default']
     ManagePanelMainStatus: typeof import('./src/components/manage_panel/ManagePanelMain/ManagePanelMain-status.vue')['default']
     ManagePanelMainSwitchdb: typeof import('./src/components/manage_panel/ManagePanelMain/ManagePanelMain-switchdb.vue')['default']
