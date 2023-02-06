@@ -31,7 +31,7 @@ const useStatusStore = defineStore("status", {
                 showMessage("已取消", "info")
             })
         },
-        clear_timer(){
+        clear_timer() {
             if (this.timer !== null) {
                 clearTimeout(this.timer)
             }
@@ -69,7 +69,7 @@ const useStatusStore = defineStore("status", {
                         this.status = "未知"
                     } else {
                         this.status = data.status
-                    }
+                    } break;
                 }
                 default: {
                     this.status = "未知"

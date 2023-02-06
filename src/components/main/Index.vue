@@ -14,7 +14,8 @@ import ArticleBody from '@/components/main/Article/ArticleBody.vue'
 import ArticleCard from '@/components/main/Article/ArticleCard.vue'
 import useMainStore from "@/stores/main"
 const MainStore = useMainStore();
-let { is_data_loaded,article_card } = storeToRefs(MainStore);
+let { is_data_loaded, article_card } = storeToRefs(MainStore);
+
 </script>
 <style>
 

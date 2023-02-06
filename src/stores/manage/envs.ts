@@ -6,7 +6,6 @@ import useManageHomeStore from "@/stores/manage/home"
 
 const useEnvsStore = defineStore("envs", {
     state: () => ({
-
         // 环境变量配置
         all_env: {
             PROXY: {
@@ -156,10 +155,10 @@ const useEnvsStore = defineStore("envs", {
             const ManageHomeStore = useManageHomeStore();
             let base_api = MainStore.get_current_base_api
             if (ManageHomeStore.get_current_settings.DEPLOY_TYPE === "github") {
-                this.all_env["STORAGE_TYPE"] = {
-                    value: "",
-                    placeholder: "存储方式"
-                }
+                // this.all_env["STORAGE_TYPE"] = {
+                //     value: "",
+                //     placeholder: "存储方式"
+                // }
                 this.all_env["VERCEL_ACCESS_TOKEN"] = {
                     value: "",
                     placeholder: "vercel访问令牌"

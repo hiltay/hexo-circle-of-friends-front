@@ -51,7 +51,7 @@ const useLinksStore = defineStore("links", {
             let list_ = [] as any
             // 过滤掉全部为空的项
             for (let i = 0; i < this.list.length; i++) {
-                if (this.list[i][0] === this.list[i][1] === this.list[i][2] === "") {
+                if (this.list[i][0] === "" && this.list[i][1] === "" && this.list[i][2] === "") {
                     continue
                 } else {
                     list_.push(this.list[i])

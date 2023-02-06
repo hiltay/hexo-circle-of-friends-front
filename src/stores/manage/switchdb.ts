@@ -235,9 +235,54 @@ const useSwitchDBStore = defineStore("switchdb", {
                 }
             }
         },
-        init_value() {
+        async init_value() {
             const ManageHomeStore = useManageHomeStore();
+            const MainStore = useMainStore()
+            let base_api = MainStore.get_current_base_api
             this.current_db = ManageHomeStore.get_current_settings.DATABASE;
+            // 获取env
+            let res = await readEnvs(base_api)
+            switch (res.status) {
+                case 200: {
+                    let data = res.data
+                    if (data.code === 200) {
+                        switch (this.current_db) {
+                            case "sqlite": {
+                                this.sqlite_env.GH_NAME.value = data.current_envs.GH_NAME;
+                                this.sqlite_env.GH_EMAIL.value = data.current_envs.GH_EMAIL;
+                                this.sqlite_env.GH_TOKEN.value = data.current_envs.GH_TOKEN;
+                                break;
+                            }
+                            case "mongodb": {
+                                this.mongodb_env.MONGODB_URI.value = data.current_envs.MONGODB_URI;
+                                break;
+                            }
+                            case "mysql": {
+                                this.mysql_env.MYSQL_USERNAME.value = data.current_envs.MYSQL_USERNAME;
+                                this.mysql_env.MYSQL_PASSWORD.value = data.current_envs.MYSQL_PASSWORD;
+                                this.mysql_env.MYSQL_IP.value = data.current_envs.MYSQL_IP;
+                                this.mysql_env.MYSQL_PORT.value = data.current_envs.MYSQL_PORT;
+                                this.mysql_env.MYSQL_DB.value = data.current_envs.MYSQL_DB;
+                                break;
+                            }
+                            case "leancloud": {
+                                this.leancloud_env.APPKEY.value = data.current_envs.APPKEY;
+                                this.leancloud_env.APPID.value = data.current_envs.APPID;
+                                break;
+                            }
+                        }
+
+                    } else
+                        break;
+
+                }
+                default: {
+
+                }
+            }
+
+
+
         }
     }
 },
