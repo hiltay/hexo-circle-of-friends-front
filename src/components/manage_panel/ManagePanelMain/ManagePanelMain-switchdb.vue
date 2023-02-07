@@ -8,7 +8,7 @@
       <el-radio label="mysql">mysql</el-radio>
       <el-radio label="mongodb">mongodb</el-radio>
     </el-radio-group>
-    <el-form v-if="current_db === 'sqlite'" :model="sqlite_env" label-width="120px">
+    <el-form v-if="current_db === 'sqlite' && current_settings.DEPLOY_TYPE==='github'" :model="sqlite_env" label-width="120px">
       <el-row v-for="(value, name) in sqlite_env" :key="name">
         <el-col :span="22" :offset="2">
           <el-form-item :label="name">
