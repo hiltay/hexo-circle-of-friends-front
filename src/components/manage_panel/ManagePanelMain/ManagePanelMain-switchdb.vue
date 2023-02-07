@@ -26,6 +26,17 @@
         </el-col>
       </el-row>
     </el-form>
+    <el-form v-if="current_db === 'sqlite'" :model="sqlite_env" label-width="120px">
+      <el-row>
+        <el-col>
+          <el-form-item>
+            <el-button type="primary" @click="submit_form">保存</el-button>
+            <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
+            <el-button type="info" @click="refresh">刷新</el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
     <el-form v-if="current_db === 'leancloud'" :model="leancloud_env" label-width="120px">
       <el-row v-for="(value, name) in leancloud_env" :key="name">
         <el-col :span="22" :offset="2">
