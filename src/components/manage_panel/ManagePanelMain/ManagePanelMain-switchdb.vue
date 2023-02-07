@@ -26,7 +26,7 @@
         </el-col>
       </el-row>
     </el-form>
-    <el-form v-if="current_db === 'sqlite'" :model="sqlite_env" label-width="120px">
+    <el-form v-if="current_db === 'sqlite' && current_settings.DEPLOY_TYPE!=='github'" :model="sqlite_env" label-width="120px">
       <el-row>
         <el-col>
           <el-form-item>
