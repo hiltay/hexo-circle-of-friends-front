@@ -1,6 +1,6 @@
 let DefaultConfig = {
-  private_api_url: 'https://fcircle.yyyzyyyz.cn',
-  // private_api_url: 'http://127.0.0.1:8000/',
+  // private_api_url: 'https://fcircle.yyyzyyyz.cn',
+  private_api_url: 'http://192.168.230.105:8888/',
   public_api_url: "https://fcircle-pub.rct.cool/",
   page_init_number: 20,
   page_turning_number: 10,

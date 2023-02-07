@@ -27,15 +27,15 @@
 }
 
 /* element-ui 全局按钮样式开始 */
-.el-button:focus,
-.el-button:hover {
+.yyyz-button:focus,
+.yyyz-button:hover {
   color: var(--lmm-hover) !important;
 }
 
 /* element-ui 全局按钮样式结束 */
 
 /* element-ui 全局表单样式开始 */
-.el-form-item__label {
+.yyyz-form-item__label {
   color: #ffffff !important;
 }
 

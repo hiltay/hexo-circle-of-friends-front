@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { downloadLogs, request_default } from "@/interfaces/manage"
 import useMainStore from "../main"
 import { showMessage } from "@/utils/tooltip"
+import useManageHomeStore from "@/stores/manage/home"
 
 const downloadBlob = (blob: Blob | MediaSource, filename: string) => {
     if (typeof window.navigator.msSaveBlob !== 'undefined') {
@@ -47,34 +48,65 @@ const useOthersStore = defineStore("others", {
     actions: {
         async downloadlogs() {
             const MainStore = useMainStore();
-            let res = await downloadLogs(MainStore.get_current_base_api)
-            switch (res.status) {
-                case 200: {
-                    let data = res.data
-                    if (data.code === 200) {
-                        let download_url = data.path
-                        let filename = data.filename
-                        let resp = await request_default.get<any>({
-                            url: download_url,
-                            headers: {
-                                Accept: 'application/json; application/octet-stream'
-                            },
-                            responseType: 'blob'
-                        })
+            const ManageHomeStore = useManageHomeStore();
+            if (ManageHomeStore.get_current_settings.DEPLOY_TYPE === "github") {
+                let res = await downloadLogs(MainStore.get_current_base_api, true)
+                switch (res.status) {
+                    case 200: {
+                        let data = res.data
+                        if (data.code === 200) {
+                            let download_url = data.path
+                            let filename = data.filename
+                            let resp = await request_default.get<any>({
+                                url: download_url,
+                                headers: {
+                                    Accept: 'application/json; application/octet-stream'
+                                },
+                                responseType: 'blob'
+                            })
+                            const contentType = "application/zip"
+                            const blob = new Blob([resp.data], {
+                                type: contentType
+                            });
+                            downloadBlob(blob, filename);
+                        } else {
+                            showMessage(data.message, "error")
+                        }
+                        break;
+                    }
+                    default: {
+                        showMessage(res.message, "error")
+                    }
+                }
+            } else {
+                // server||docker
+                let resp = await downloadLogs(MainStore.get_current_base_api, false)
+                switch (resp.status) {
+                    case 200: {
                         const contentType = "application/zip"
+                        let filename;
+                        let re = new RegExp("filename=\"(.+\.zip)\"")
+                        let arr = re.exec(resp.headers["content-disposition"])
+                        if (arr && arr.length > 1) {
+                            filename = arr[1];
+                        } else {
+                            filename = "pyq_log.zip"
+                        }
+
                         const blob = new Blob([resp.data], {
                             type: contentType
                         });
                         downloadBlob(blob, filename);
-                    } else {
-                        showMessage(data.message, "error")
+                        break;
                     }
-                    break;
+                    default: {
+                        showMessage(resp.message, "error")
+                    }
                 }
-                default: {
-                    showMessage(res.message, "error")
-                }
+
+
             }
+
         }
     }
 },

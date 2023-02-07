@@ -3,8 +3,7 @@ import App from "./App.vue";
 import axios from "axios";
 
 import "element-plus/dist/index.css";
-import "@/assets/css/index.css";
-import packagejson from '../package.json'
+import "@/styles/index.css";
 import { createPinia } from 'pinia'
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 

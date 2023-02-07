@@ -1,6 +1,8 @@
 <template>
+  <el-config-provider namespace="yyyz">
   <ManagePanel v-if="manage_panel_open"></ManagePanel>
   <Main_Component />
+</el-config-provider>
 </template>
 
 <script setup lang="ts">

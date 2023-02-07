@@ -96,10 +96,22 @@ export function getCrawlerStatus(url: string,) {
     });
 }
 
-export function downloadLogs(url: string,) {
-    return request_auth.get<any>({
-        url: url + "download_logs",
-    });
+export function downloadLogs(url: string, is_github_deploy: boolean) {
+    if (is_github_deploy) {
+        return request_auth.get<any>({
+            url: url + "download_logs",
+
+        });
+    } else {
+        return request_auth.get<any>({
+            url: url + "download_logs",
+            headers: {
+                Accept: 'application/json; application/octet-stream'
+            },
+            responseType: 'blob'
+        });
+    }
+
 }
 
 

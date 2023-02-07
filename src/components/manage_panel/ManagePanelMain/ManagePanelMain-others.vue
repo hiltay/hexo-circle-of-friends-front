@@ -10,7 +10,7 @@
 -->
 <template>
 
-<el-button type="info" @click="download_logs">下载运行日志</el-button>
+<el-button type="primary" @click="download_logs">下载运行日志</el-button>
 </template>
 
 <script setup lang="ts">
