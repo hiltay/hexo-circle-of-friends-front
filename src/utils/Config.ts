@@ -1,6 +1,16 @@
+/*
+ * @Author: yyyz && 904108079@qq.com
+ * @Date: 2023-02-02 22:01:24
+ * @LastEditors: yyyz && 904108079@qq.com
+ * @LastEditTime: 2023-02-07 21:48:35
+ * @FilePath: \hexo-circle-of-friends-front\src\utils\Config.ts
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by yyyz, All Rights Reserved. 
+ */
 let DefaultConfig = {
   // private_api_url: 'https://fcircle.yyyzyyyz.cn',
-  private_api_url: 'http://127.0.0.1:8000/',
+  private_api_url: 'http://192.168.142.88:8000/',
   public_api_url: "https://fcircle-pub.rct.cool/",
   page_init_number: 20,
   page_turning_number: 10,

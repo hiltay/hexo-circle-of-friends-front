@@ -1,8 +1,8 @@
 <template>
-  <el-config-provider namespace="yyyz">
+  <!-- <el-config-provider namespace="yyyz"> -->
   <ManagePanel v-if="manage_panel_open"></ManagePanel>
   <Main_Component />
-</el-config-provider>
+<!-- </el-config-provider> -->
 </template>
 
 <script setup lang="ts">
@@ -193,4 +193,20 @@ MainStore.get_data()
     display: none;
   }
 }
+
+
+/* element-ui 全局按钮样式开始 */
+.el-button:focus,
+.el-button:hover {
+  color: var(--lmm-hover) !important;
+}
+
+/* element-ui 全局按钮样式结束 */
+
+/* element-ui 全局表单样式开始 */
+.el-form-item__label {
+  color: #ffffff !important;
+}
+
+/* element-ui 全局表单样式结束 */
 </style>

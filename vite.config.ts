@@ -8,13 +8,13 @@ import IconsResolver from 'unplugin-icons/resolver'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use "./src/styles/element/index.scss" as *;`,
-      },
-    },
-  },
+  // css: {
+  //   preprocessorOptions: {
+  //     scss: {
+  //       additionalData: `@use "./src/styles/element/index.scss" as *;`,
+  //     },
+  //   },
+  // },
   plugins: [
     vue(),
 
@@ -32,7 +32,7 @@ export default defineConfig({
         IconsResolver({
           enabledCollections: ['ep'],
         }),
-        ElementPlusResolver({ importStyle: "sass" })
+        ElementPlusResolver()
       ],
     }),
   ],
