@@ -41,4 +41,25 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    minify:"terser",
+    rollupOptions: {
+      output: {
+        format: "iife",
+        entryFileNames:'fcircle.min.js',
+        assetFileNames:'assets/[name][extname]',
+        chunkFileNames:'[name].js'
+      },
+    },
+    terserOptions: {
+      compress: {
+        // 打包自动删除console
+        drop_console: true,
+        drop_debugger: true,
+      },
+      keep_classnames: true,
+      toplevel: true,
+      ie8: true,
+    },
+  }
 })
