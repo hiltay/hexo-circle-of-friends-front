@@ -19,7 +19,7 @@
       <el-row>
         <el-col>
           <el-form-item>
-            <el-button type="primary" @click="submit_form">保存</el-button>
+            <el-button type="primary" @click="submit_form(current_db)">保存</el-button>
             <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
             <el-button type="info" @click="refresh">刷新</el-button>
           </el-form-item>
@@ -30,7 +30,7 @@
       <el-row>
         <el-col>
           <el-form-item>
-            <el-button type="primary" @click="submit_form">保存</el-button>
+            <el-button type="primary" @click="submit_form(current_db)">保存</el-button>
             <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
             <el-button type="info" @click="refresh">刷新</el-button>
           </el-form-item>
@@ -48,7 +48,7 @@
       <el-row>
         <el-col>
           <el-form-item>
-            <el-button type="primary" @click="submit_form">保存</el-button>
+            <el-button type="primary" @click="submit_form(current_db)">保存</el-button>
             <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
             <el-button type="info" @click="refresh">刷新</el-button>
           </el-form-item>
@@ -66,7 +66,7 @@
       <el-row>
         <el-col>
           <el-form-item>
-            <el-button type="primary" @click="submit_form">保存</el-button>
+            <el-button type="primary" @click="submit_form(current_db)">保存</el-button>
             <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
             <el-button type="info" @click="refresh">刷新</el-button>
           </el-form-item>
@@ -84,7 +84,7 @@
       <el-row>
         <el-col>
           <el-form-item>
-            <el-button type="primary" @click="submit_form">保存</el-button>
+            <el-button type="primary" @click="submit_form(current_db)">保存</el-button>
             <el-button type="primary" @click="reset_db">重置当前数据库</el-button>
             <el-button type="info" @click="refresh">刷新</el-button>
           </el-form-item>
@@ -103,9 +103,9 @@ const ManageHomeStore = useManageHomeStore();
 let { current_db, sqlite_env, mongodb_env, mysql_env, leancloud_env } = storeToRefs(SwitchDBStore);
 let { current_settings } = storeToRefs(ManageHomeStore)
 
-function submit_form() {
+function submit_form(current_db:string) {
   // 如果本地有缓存token，尝试直接使用token登录
-  SwitchDBStore.submit_form()
+  SwitchDBStore.submit_form(current_db)
   // 刷新当前组件
   ManageHomeStore.refresh_component("switchdb")
 }

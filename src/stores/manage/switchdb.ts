@@ -87,12 +87,14 @@ const useSwitchDBStore = defineStore("switchdb", {
                 showMessage("已取消", "info")
             })
         },
-        async submit_form() {
+        async submit_form(current_db:string) {
+            const MainStore = useMainStore()
+            const ManageHomeStore = useManageHomeStore();
             let success = true;
             // 确保选择了数据库
             // 拼接请求体
             let body = {} as any;
-            if (this.current_db === "sqlite") {
+            if (this.current_db === "sqlite" && ManageHomeStore.get_current_settings.DEPLOY_TYPE==='github') {
                 for (let key in this.sqlite_env) {
                     if (this.sqlite_env[key].value !== "") {
                         body[key] = this.sqlite_env[key].value;
@@ -136,8 +138,7 @@ const useSwitchDBStore = defineStore("switchdb", {
                 }
                 body["STORAGE_TYPE"] = "mongodb"
             }
-            const MainStore = useMainStore()
-            const ManageHomeStore = useManageHomeStore();
+
             let base_api = MainStore.get_current_base_api
             // 根据部署方式决定请求url
             if (ManageHomeStore.get_current_settings.DEPLOY_TYPE === "github") {
@@ -192,9 +193,8 @@ const useSwitchDBStore = defineStore("switchdb", {
             }
             // 更新完环境变量后，更新配置，将DATABASE设置为对应的数据库
             body = {
-                DATABASE: this.current_db,
+                DATABASE: current_db,
             };
-
             let res = await updateSettings(base_api, body)
             switch (res.status) {
                 case 200: {
