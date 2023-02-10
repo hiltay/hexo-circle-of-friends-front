@@ -12,6 +12,7 @@ const useSettingsStore = defineStore("settings", {
         form: {
             LINK: "" as any,
             BLOCK_SITE: [] as Array<string>,
+            MAX_POSTS_NUM: "" as any,
             OUTDATE_CLEAN: "",
             HTTP_PROXY: "",
         }
@@ -120,6 +121,7 @@ const useSettingsStore = defineStore("settings", {
                 this.form.BLOCK_SITE = _.cloneDeep(current_settings.BLOCK_SITE)
             }
             this.form.OUTDATE_CLEAN = current_settings.OUTDATE_CLEAN
+            this.form.MAX_POSTS_NUM = current_settings.MAX_POSTS_NUM
             this.form.HTTP_PROXY = current_settings.HTTP_PROXY
         }
     }

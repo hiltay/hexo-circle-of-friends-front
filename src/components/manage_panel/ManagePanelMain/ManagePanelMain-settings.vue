@@ -62,6 +62,15 @@
     </el-row>
     <el-row>
       <el-col :span="24">
+        <el-form-item label="MAX_POSTS_NUM" label-width="auto">
+          <el-tooltip content="每个友链最多获取几篇文章" placement="left" effect="light">
+            <el-input placeholder="示例：5" v-model="form.MAX_POSTS_NUM" />
+          </el-tooltip>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="24">
         <el-form-item label="HTTP_PROXY">
           <el-tooltip content="是否开启http代理，如需开启，打开此选项同时还要在环境变量配置一个代理地址" placement="left" effect="light">
             <el-switch v-model="form.HTTP_PROXY" />
