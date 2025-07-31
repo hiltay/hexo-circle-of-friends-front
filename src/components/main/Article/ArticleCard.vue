@@ -10,9 +10,13 @@
             article_card.data.statistical_data.name
           }}</a>
         </div>
-        <div v-if="article_card.data.article_data.length === 0">
-          <div class="cf-overshow-content-tail">
-            <span style="font-style: italic;font-size: 16px;color: gray;">该作者最近暂无文章喵=^ω^=</span>
+        <div v-if="article_card.data.article_data.length === 0" class="cf-no-articles">
+          <div class="cf-no-articles-bg"></div>
+          <div class="cf-no-articles-content">
+            <div class="cf-no-articles-icon">📝</div>
+            <h4>暂无文章</h4>
+            <p>该作者最近暂无发布文章</p>
+            <small>可能是刚刚加入朋友圈或更新较少</small>
           </div>
         </div>
         <div v-else>
@@ -32,9 +36,10 @@
 
 <script setup lang="ts">
 import useMainStore from "@/stores/main"
-import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 const MainStore = useMainStore();
-let { article_card, Config } = storeToRefs(MainStore);
+const article_card = computed(() => MainStore.article_card);
+const Config = computed(() => MainStore.Config);
 
 // 关闭文章卡片
 function close_article_card() {
@@ -80,6 +85,8 @@ function loadDefaultImg(event: any) {
 }
 
 .cf-overshow {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   border-radius: 20px;
   position: fixed;
@@ -141,6 +148,7 @@ function loadDefaultImg(event: any) {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
@@ -171,4 +179,83 @@ function loadDefaultImg(event: any) {
 }
 
 /*个人卡片body样式结束*/
+
+/* 无文章状态样式 */
+.cf-no-articles {
+  position: relative;
+  min-height: 120px;
+  padding: 20px;
+  overflow: hidden;
+  border-radius: 0 0 20px 20px;
+}
+
+.cf-no-articles-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    var(--lmm-background-floorcolor, #f8f9fa) 0%, 
+    var(--lmm-background, #ffffff) 50%, 
+    var(--lmm-background-floorcolor, #f8f9fa) 100%);
+  opacity: 0.6;
+}
+
+.cf-no-articles-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(64, 158, 255, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 80% 80%, rgba(64, 158, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px, 12px 12px;
+  animation: float 15s ease-in-out infinite;
+}
+
+.cf-no-articles-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  min-height: 80px;
+}
+
+.cf-no-articles-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.cf-no-articles-content h4 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--lmm-fontcolor, #333);
+}
+
+.cf-no-articles-content p {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: var(--lmm-hover, #666);
+  line-height: 1.4;
+}
+
+.cf-no-articles-content small {
+  font-size: 12px;
+  color: var(--lmm-floorcolor, #999);
+  font-style: italic;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
 </style>

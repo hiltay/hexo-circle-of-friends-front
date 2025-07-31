@@ -1,17 +1,20 @@
 <template>
   <div>
     <div id="cf-state" class="cf-new-add">
-      <el-button id="panel-btn" circle @click="open_manage_panel"><el-icon><Setting /></el-icon></el-button>
       <div class="cf-state-data">
         <el-tooltip content="点击获取一篇随机文章" placement="bottom" effect="light">
-          <div class="cf-data-friends" @click="open_article_card">
+          <div class="cf-data-friends" @click="get_random_article" :class="{ 'cf-loading': random_article_loading }">
             <span class="cf-label">订阅</span>
-            <span class="cf-message">{{ all_article_data.statistical_data?.friends_num }}
+            <span class="cf-message">
+              <el-icon v-if="random_article_loading" class="is-loading">
+                <Loading />
+              </el-icon>
+              <span v-else>{{ all_article_data.statistical_data?.friends_num }}</span>
             </span>
           </div>
         </el-tooltip>
-        <el-tooltip content="点击切换公共库/私有库" placement="top" effect="light">
-          <div class="cf-data-active" @click="toggle_api_url">
+        <el-tooltip :content="summary_enabled ? '点击关闭文章摘要' : '点击开启文章摘要'" placement="bottom" effect="light">
+          <div class="cf-data-active" @click="toggle_summary" :class="{ 'cf-summary-disabled': !summary_enabled }">
             <span class="cf-label">活跃</span>
             <span class="cf-message">{{ all_article_data.statistical_data?.active_num }}</span>
           </div>
@@ -36,31 +39,36 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import useMainStore from "@/stores/main"
 import cache from "@/utils/cache"
+import { Loading } from '@element-plus/icons-vue'
+
 const MainStore = useMainStore();
-let { current_sort_rule, current_api, Config } = storeToRefs(MainStore);
+const current_sort_rule = computed(() => MainStore.current_sort_rule);
+const Config = computed(() => MainStore.Config);
 const all_article_data = computed(() => MainStore.get_current_article_data)
+const random_article_loading = computed(() => MainStore.random_article.loading)
+const summary_enabled = computed(() => MainStore.summary_enabled)
 
 // 切换排序规则
 function change_sort_rule() {
   MainStore.change_current_sort_rule()
 }
-// 随机文章卡片
-function open_article_card() {
-  setTimeout(MainStore.get_article_card_data, 100)
+
+// 获取随机文章
+function get_random_article() {
+  if (!random_article_loading.value) {
+    MainStore.get_random_article()
+  }
 }
-// 切换私有库/公共库
-function toggle_api_url() {
-  MainStore.change_current_api()
-  MainStore.get_data()
+
+// 切换摘要功能
+function toggle_summary() {
+  MainStore.toggle_summary_enabled()
 }
+
 // 清除sessionstorage缓存
 function clear_session_storage() {
   cache.clearCache()
   location.reload();
-}
-// 打开管理面板
-function open_manage_panel() {
-  MainStore.open_manage_panel()
 }
 </script>
 
@@ -102,7 +110,6 @@ function open_manage_panel() {
 }
 
 .cf-data-friends,
-.cf-data-active,
 .cf-data-article {
   height: 60px;
   background: transparent;
@@ -110,6 +117,14 @@ function open_manage_panel() {
   flex-direction: column;
   width: 33%;
   cursor: pointer;
+}
+
+.cf-data-active {
+  height: 60px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  width: 33%;
 }
 
 .cf-label {
@@ -129,9 +144,42 @@ function open_manage_panel() {
   font-size: 20px;
 }
 
-#panel-btn {
-  position: absolute;
-  right: 0;
-  bottom: 0;
+/* 随机文章加载状态 */
+.cf-data-friends.cf-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.cf-data-friends.cf-loading .cf-message {
+  position: relative;
+}
+
+.cf-data-friends .el-icon.is-loading {
+  animation: rotating 1s linear infinite;
+  color: var(--el-color-primary);
+}
+
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 活跃区域摘要切换样式 */
+.cf-data-active {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cf-data-active:hover {
+  transform: scale(1.05);
+}
+
+.cf-data-active.cf-summary-disabled {
+  opacity: 0.6;
 }
 </style>

@@ -1,19 +1,20 @@
 <template>
   <!-- <el-config-provider namespace="yyyz"> -->
-  <ManagePanel v-if="manage_panel_open"></ManagePanel>
   <Main_Component />
 <!-- </el-config-provider> -->
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import Main_Component from '@/components/main/Index.vue'
-import ManagePanel from '@/components/manage_panel/ManagePanel.vue'
 import useMainStore from "@/stores/main"
 const MainStore = useMainStore();
-let { manage_panel_open } = storeToRefs(MainStore);
 
 MainStore.get_data()
+MainStore.init_summary_settings()
+// 延迟3秒后检查版本，避免影响主要功能加载
+setTimeout(() => {
+  MainStore.check_version()
+}, 3000)
 
 </script>
 
@@ -29,6 +30,8 @@ MainStore.get_data()
 
 /* 主容器 */
 #cf-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 900px;
   height: auto;
